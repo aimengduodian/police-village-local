@@ -9,6 +9,8 @@ export const useVillageStore = defineStore("village", {
     houseHolderMsg: {},
     // 村庄信息
     villageMsg: {},
+    // 村庄信息加载信息
+    villageMsgLoadDone: [],
     // 选择的村庄信息（坐标、名称、缩放等级等）
     selectedVillageMsg: {},
   }),
@@ -50,6 +52,8 @@ export const useVillageStore = defineStore("village", {
             });
             console.log(results.data);
             this.houseHolderMsg[aCsvName] = results.data;
+            // 数据加载完成存储到数组中
+            this.villageMsgLoadDone.push(aCsvName);
           },
           error: () => {
             console.error("CSV parsing error:");

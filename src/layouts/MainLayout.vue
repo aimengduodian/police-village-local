@@ -23,23 +23,7 @@
 
         <q-space />
 
-        <q-input
-          class="GPL__toolbar-input"
-          dense
-          standout="bg-primary"
-          v-model="search"
-          placeholder="Search"
-        >
-          <template v-slot:prepend>
-            <q-icon v-if="search === ''" name="search" />
-            <q-icon
-              v-else
-              name="clear"
-              class="cursor-pointer"
-              @click="search = ''"
-            />
-          </template>
-        </q-input>
+        <select-person class="GPL__toolbar-input" />
 
         <q-btn
           v-if="$q.screen.gt.xs"
@@ -120,7 +104,7 @@
         <q-list padding>
           <div class="q-gutter-md row items-start">
             <q-separator class="q-my-md" />
-            <test-search-house />
+            <search-house />
             <!-- 两个select下拉框，实现地图定位功能 -->
           </div>
           <q-separator class="q-my-md" />
@@ -176,11 +160,13 @@ import { ref, onMounted, watch } from "vue";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
 
-import TestSearchHouse from "components/TestSearchHouse.vue";
+import SearchHouse from "components/SearchHouse.vue";
+import SelectPerson from "components/SelectPerson.vue";
 
 export default {
   components: {
-    TestSearchHouse,
+    SearchHouse,
+    SelectPerson,
   },
   created() {},
   setup() {
@@ -193,12 +179,11 @@ export default {
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
+    // 加载数据
+    store.loadHouseHolderCSVData("zhonggang", "/csv/zhonggang.csv");
+    store.loadHouseHolderCSVData("xiezhuang", "/csv/xiezhuang.csv");
+    store.loadCSVData("祥符区", "/csv/祥符区.csv");
 
-    onMounted(() => {
-      store.loadHouseHolderCSVData("zhonggang", "/csv/zhonggang.csv");
-      store.loadHouseHolderCSVData("xiezhuang", "/csv/xiezhuang.csv");
-      store.loadCSVData("祥符区", "/csv/祥符区.csv");
-    });
     function loadHouseHolderCSV() {}
     function loadVillage() {}
 
@@ -207,7 +192,6 @@ export default {
 
     return {
       leftDrawerOpen,
-      search,
       storage,
 
       links3: [
