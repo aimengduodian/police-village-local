@@ -88,7 +88,7 @@ export default {
         // 去除空格
         const needle = val.replace(/\s/g, "");
         options.value.splice(0, options.value.length);
-        options.value = findObjectWithNameOrID(store.houseHolderMsg, needle);
+        options.value = findObjectWithNameOrID(store.allVillagerMsg, needle);
       });
     }
     watch(model, (newVlaue, _oldValue) => {
