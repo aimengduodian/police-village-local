@@ -4,6 +4,7 @@
     v-for="(house, index) in store.allHouseHolderMsg"
     :key="index"
     :lat-lng="house.经纬度"
+    class="custom-marker"
   >
     <l-popup>
       <show-house-all-number
@@ -92,3 +93,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* 通过唯一的类名来选择特定的标记 */
+.custom-marker {
+  display: none;
+}
+</style>

@@ -40,22 +40,8 @@ export default {
       const personList = [];
       for (var key in array) {
         for (var i = 0; i < array[key].length; i++) {
-          if (array[key][i].姓名 && array[key][i].姓名 == searchString) {
-            array[key][i].label =
-              array[key][i].姓名 +
-              "," +
-              array[key][i].性别 +
-              "," +
-              array[key][i].街路巷;
-            array[key][i].value =
-              array[key][i].姓名 +
-              "," +
-              array[key][i].性别 +
-              "," +
-              array[key][i].街路巷;
-            personList.push(array[key][i]);
-          } else if (
-            array[key][i].公民身份证号 &&
+          if (
+            array[key][i].姓名 == searchString ||
             array[key][i].公民身份证号 == searchString
           ) {
             array[key][i].label =
@@ -64,13 +50,7 @@ export default {
               array[key][i].性别 +
               "," +
               array[key][i].街路巷;
-            personList.push(array[key][i]);
-            array[key][i].value =
-              array[key][i].姓名 +
-              "," +
-              array[key][i].性别 +
-              "," +
-              array[key][i].街路巷;
+            array[key][i].value = array[key][i].公民身份证号;
             personList.push(array[key][i]);
           }
         }
@@ -92,7 +72,8 @@ export default {
       });
     }
     watch(model, (newVlaue, _oldValue) => {
-      //获取户id，通过户id获取家庭成员信息
+      //获取
+      store.saveSelectedVillagerMsg(newVlaue);
       console.log(newVlaue);
     });
     return {

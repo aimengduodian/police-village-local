@@ -9,6 +9,12 @@
       <l-tile-layer :url="'/map/{z}/{x}/{y}.jpg'" :max-zoom="maxZoom" />
       <!--添加到地图上 -->
       <leaflet-marker />
+      <l-circle
+        v-if="showCircle"
+        :lat-lng="circleLatLng"
+        :radius="circleRadius"
+        :color="circleColor"
+      ></l-circle>
     </l-map>
   </div>
 </template>
@@ -17,8 +23,9 @@
 // 引入leaflet插件的样式和脚本
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet";
-import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
+import { LMap, LTileLayer, LCircle } from "@vue-leaflet/vue-leaflet";
 import LeafletMarker from "components/LeafletMarker.vue";
+
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
 import { computed, ref, watch } from "vue";
@@ -28,6 +35,7 @@ export default {
     LMap,
     LTileLayer,
     LeafletMarker,
+    LCircle,
   },
   setup() {
     const store = useVillageStore();
@@ -44,9 +52,15 @@ export default {
     // 自定义图标
     const customIcon = null;
 
-    // 监测数据变换
+    // 圆形标记的中心坐标
+    const showCircle = ref(true);
+    const circleLatLng = ref([0, 0]);
+    const circleRadius = ref(10);
+    const circleColor = ref("red");
+
+    // 监测搜索村庄信息数据变换
     const aMapCenter = computed(() => store.selectedVillageMsg.center);
-    watch(aMapCenter, (newVlaue, oldValue) => {
+    watch(aMapCenter, (_newVlaue, _oldValue) => {
       zoom.value = store.selectedVillageMsg.zoom;
       maxZoom.value = store.selectedVillageMsg.maxZoom;
       minZoom.value = store.selectedVillageMsg.minzoom;
@@ -56,6 +70,15 @@ export default {
       maxBounds.value = store.selectedVillageMsg.maxBounds;
     });
 
+    // 监测搜索框搜索住户的数据变换
+    const aMapCenter2 = computed(() => store.selectedVillagerMsg.公民身份证号);
+    watch(aMapCenter2, (_newVlaue, _oldValue) => {
+      // 更改地图中心位置
+      center.value = store.selectedVillagerMsg.经纬度;
+      // 将住户信息标注在地图上
+      circleLatLng.value = store.selectedVillagerMsg.经纬度;
+      console.log(circleLatLng);
+    });
     return {
       zoom,
       maxZoom,
@@ -64,6 +87,11 @@ export default {
       maxBounds,
       customIcon,
       store,
+
+      showCircle,
+      circleLatLng,
+      circleRadius,
+      circleColor,
     };
   },
 };

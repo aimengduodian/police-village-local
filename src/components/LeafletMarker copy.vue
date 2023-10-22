@@ -1,22 +1,24 @@
 <template>
   <!-- 遍历建筑数据，将标注添加到地图上 -->
-  <l-marker
-    v-for="(house, index) in store.allHouseHolderMsg"
-    :key="index"
-    :lat-lng="house.经纬度"
-    @click="showHouseMsg(store.allVillagerMsg, house.户号)"
+  <l-circle
+    v-if="showCircle"
+    :lat-lng="circleLatLng"
+    :radius="circleRadius"
+    :color="circleColor"
   >
     <l-popup>
-      户号： {{ house.户号 }}
-      <q-splitter v-model="splitterModel" style="height: 250px">
+      <show-house-all-number
+        @click="showHouseMsg(store.allVillagerMsg, house.户号)"
+      >
+      </show-house-all-number>
+
+      <q-splitter v-model="splitterModel" style="height: 200px">
         <template v-slot:before>
           <q-tabs v-model="tab" vertical class="text-teal">
             <q-tab
-              v-for="(aNumber, index2) in aHousePersonList"
-              :key="index2"
-              :name="aNumber.与户主关系"
+              :name="house.与户主关系"
               icon="mail"
-              :label="aNumber.与户主关系"
+              :label="house.与户主关系"
             />
           </q-tabs>
         </template>
@@ -30,37 +32,33 @@
             transition-prev="jump-up"
             transition-next="jump-up"
           >
-            <q-tab-panel
-              v-for="(aNumber1, index3) in aHousePersonList"
-              :key="index3"
-              :name="aNumber1.与户主关系"
-            >
-              <div class="text-h4 q-mb-md">{{ aNumber1.姓名 }}</div>
+            <q-tab-panel :name="house.与户主关系">
+              <div class="text-h4 q-mb-md">{{ house.姓名 }}</div>
               <p>
-                与户主关系:{{ aNumber1.与户主关系 }} <br />
-                姓名:{{ aNumber1.姓名 }} <br />
-                性别: {{ aNumber1.性别 }} <br />
-                出生日期: {{ aNumber1.出生日期 }} <br />
-                电话号码: {{ aNumber1.电话号码 }}<br />
+                与户主关系:{{ house.与户主关系 }} <br />
+                姓名:{{ house.姓名 }} <br />
+                性别: {{ house.性别 }} <br />
+                出生日期: {{ house.出生日期 }} <br />
+                电话号码: {{ house.电话号码 }}<br />
               </p>
             </q-tab-panel>
           </q-tab-panels>
         </template>
       </q-splitter>
     </l-popup>
-  </l-marker>
+  </l-circle>
 </template>
 
 <script>
 import { ref } from "vue";
 // 导入leaflet样式和库
-import { LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
+import { LCircle, LPopup } from "@vue-leaflet/vue-leaflet";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
 
 export default {
   components: {
-    LMarker,
+    LCircle,
     LPopup,
   },
   setup() {

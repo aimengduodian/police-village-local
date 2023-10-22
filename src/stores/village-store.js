@@ -15,6 +15,8 @@ export const useVillageStore = defineStore("village", {
     villageMsgLoadDone: [],
     // 选择的村庄信息（坐标、名称、缩放等级等）
     selectedVillageMsg: {},
+    // 选择的村民信息（姓名、家坐标、户id，等信息）
+    selectedVillagerMsg: {},
     // 一家所有户成员信息
     houseNumberArr: [],
   }),
@@ -29,6 +31,13 @@ export const useVillageStore = defineStore("village", {
     },
   },
   actions: {
+    // 存储选择的村民信息
+    saveSelectedVillagerMsg(villagerMsg) {
+      if (villagerMsg !== null) {
+        this.selectedVillagerMsg = villagerMsg;
+        console.log(this.selectedVillagerMsg);
+      }
+    },
     // 存储选择的乡镇信息
     // villageMsg
     saveSelectedVillageMsg(villageMsg) {
@@ -64,10 +73,8 @@ export const useVillageStore = defineStore("village", {
                 this.allHouseHolderMsg.push(Element);
               }
             });
-            console.log(results.data);
+
             this.allVillagerMsg[aCsvName] = results.data;
-            // 数据加载完成存储到数组中
-            this.aillageMsgLoadDone.push(aCsvName);
           },
           error: () => {
             console.error("CSV parsing error:");

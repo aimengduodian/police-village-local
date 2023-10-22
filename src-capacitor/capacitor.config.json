@@ -1,0 +1,9 @@
+{
+  "appId": "com.policevillage.app",
+  "appName": "police-village-message",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https",
+    "url": "http://192.168.13.82:9500"
+  }
+}
