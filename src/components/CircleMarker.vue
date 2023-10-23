@@ -71,10 +71,10 @@ export default {
     const aHousePersonList = [];
 
     // 圆形标记的中心坐标
-    const showCircle = ref(true);
+    // const showCircle = ref(true);
     const circleLatLng = ref([0, 0]);
     const circleRadius = ref(10);
-    const circleColor = ref("red");
+    const circleColor = ref("transparent"); // 'transparent' 透明
     const fillOpacity = ref(0.8); // 透明度 0 -1
 
     // 户成员信息

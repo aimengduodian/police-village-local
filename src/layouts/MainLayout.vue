@@ -23,7 +23,7 @@
 
         <q-space />
 
-        <select-person class="GPL__toolbar-input" />
+        <search-person class="GPL__toolbar-input" />
 
         <q-btn
           v-if="$q.screen.gt.xs"
@@ -161,12 +161,12 @@ import { ref, onMounted, watch } from "vue";
 import { useVillageStore } from "stores/village-store";
 
 import SearchHouse from "components/SearchHouse.vue";
-import SelectPerson from "components/SelectPerson.vue";
+import SearchPerson from "components/SearchPerson.vue";
 
 export default {
   components: {
     SearchHouse,
-    SelectPerson,
+    SearchPerson,
   },
   created() {},
   setup() {
@@ -182,7 +182,7 @@ export default {
     // 加载数据
     store.loadHouseHolderCSVData("zhonggang", "/csv/zhonggang.csv");
     store.loadHouseHolderCSVData("xiezhuang", "/csv/xiezhuang.csv");
-    store.loadCSVData("祥符区", "/csv/祥符区.csv");
+    store.loadVillageCSVData("祥符区", "/csv/祥符区.csv");
 
     function loadHouseHolderCSV() {}
     function loadVillage() {}

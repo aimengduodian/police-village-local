@@ -85,7 +85,8 @@ export const useVillageStore = defineStore("village", {
       }
     },
 
-    async loadCSVData(aVillage, csvFilePath) {
+    // 加载乡镇信息
+    async loadVillageCSVData(aVillage, csvFilePath) {
       try {
         const response = await fetch(csvFilePath);
         const csvString = await response.text();
@@ -96,6 +97,7 @@ export const useVillageStore = defineStore("village", {
           complete: (results) => {
             // 存储村庄信息
             results.data.forEach((Element) => {
+              console.log(Element);
               Element.center = JSON.parse(Element.center);
               Element.maxBounds = JSON.parse(Element.maxBounds);
             });
