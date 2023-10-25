@@ -17,7 +17,7 @@
           shrink
           class="row items-center no-wrap"
         >
-          <img src="svg" />
+          <img src="/pic/title.png" />
           <span class="q-ml-sm">万隆乡地理信息系统</span>
         </q-toolbar-title>
 
