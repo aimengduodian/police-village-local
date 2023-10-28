@@ -100,6 +100,13 @@ export const useVillageStore = defineStore("village", {
               console.log(Element);
               Element.center = JSON.parse(Element.center);
               Element.maxBounds = JSON.parse(Element.maxBounds);
+              if (Element.行政区代码.toString().length == 12) {
+                // 存储村庄信息
+                this.loadHouseHolderCSVData(
+                  Element.行政区,
+                  "/csv/" + Element.行政区代码 + ".csv"
+                );
+              }
             });
             this.villageMsg[aVillage] = results.data;
             console.log(this.villageMsg);

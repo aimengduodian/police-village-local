@@ -11,80 +11,61 @@
           icon="menu"
           class="q-mx-md"
         />
-
-        <q-toolbar-title
-          v-if="$q.screen.gt.sm"
-          shrink
-          class="row items-center no-wrap"
-        >
-          <img src="/pic/title.png" />
-          <span class="q-ml-sm">万隆乡地理信息系统</span>
+        <q-toolbar-title shrink class="row items-center no-wrap">
+          <img src="/pic/title.png" v-if="$q.screen.gt.sm" />
+          <span class="q-ml-sm" v-if="$q.screen.gt.xs"
+            >万隆派出所智慧警务平台</span
+          >
         </q-toolbar-title>
 
         <q-space />
 
         <search-person class="GPL__toolbar-input" />
-
-        <q-btn
-          v-if="$q.screen.gt.xs"
-          flat
-          dense
-          no-wrap
-          color="primary"
-          icon="add"
-          no-caps
-          label="Create"
-          class="q-ml-sm q-px-md"
-        >
-          <q-menu anchor="top end" self="top end">
-            <q-list class="text-grey-8" style="min-width: 100px">
-              <q-item aria-hidden="true">
-                <q-item-section
-                  class="text-uppercase text-grey-7"
-                  style="font-size: 0.7rem"
-                  >Create New</q-item-section
-                >
-              </q-item>
-              <q-item
-                v-for="menu in createMenu"
-                :key="menu.text"
-                clickable
-                v-close-popup
-                aria-hidden="true"
-              >
-                <q-item-section avatar>
-                  <q-icon :name="menu.icon" />
-                </q-item-section>
-                <q-item-section>{{ menu.text }}</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
-
-        <q-btn
-          v-if="$q.screen.gt.xs"
-          flat
-          dense
-          no-wrap
-          color="primary"
-          icon="cloud_upload"
-          no-caps
-          label="Upload"
-          class="q-ml-sm q-px-md"
-        />
-        <q-space />
-
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="text-grey-7" icon="apps">
-            <q-tooltip>更多功能选项</q-tooltip>
-          </q-btn>
+          <q-btn-dropdown
+            round
+            dense
+            flat
+            color="text-grey-7"
+            dropdown-icon="apps"
+          >
+            <div class="row no-wrap q-pa-md">
+              <div class="column">
+                <div class="text-h6 q-mb-md">Settings</div>
+                <q-toggle
+                  v-for="menu in createMenu"
+                  :key="menu.text"
+                  v-model="mobileData"
+                  :label="menu.label"
+                />
+              </div>
+
+              <q-separator vertical inset class="q-mx-lg" />
+
+              <div class="column items-center">
+                <q-avatar size="72px">
+                  <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+                </q-avatar>
+
+                <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+
+                <q-btn
+                  color="primary"
+                  label="Logout"
+                  push
+                  size="sm"
+                  v-close-popup
+                />
+              </div>
+            </div>
+          </q-btn-dropdown>
           <q-btn round dense flat color="grey-8" icon="notifications">
-            <q-badge color="red" text-color="white" floating> 2 </q-badge>
+            <!--           <q-badge color="red" text-color="white" floating> 2 </q-badge> -->
             <q-tooltip>消息提醒</q-tooltip>
           </q-btn>
           <q-btn round flat>
             <q-avatar size="26px">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+              <img src="/pic/avatar.jpeg" />
             </q-avatar>
             <q-tooltip>账号</q-tooltip>
           </q-btn>
@@ -96,7 +77,6 @@
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
-            <img class="q-pl-md" src="74x24px.svg" />
             <span class="q-ml-sm">功能列表</span>
           </q-toolbar-title>
         </q-toolbar>
@@ -180,8 +160,7 @@ export default {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
     // 加载数据
-    store.loadHouseHolderCSVData("zhonggang", "/csv/zhonggang.csv");
-    store.loadHouseHolderCSVData("xiezhuang", "/csv/xiezhuang.csv");
+
     store.loadVillageCSVData("祥符区", "/csv/祥符区.csv");
 
     function loadHouseHolderCSV() {}
@@ -198,7 +177,7 @@ export default {
         { icon: "settings", text: "设置" },
         { icon: "help", text: "帮助文档" },
       ],
-      createMenu: [{ icon: "photo_album", text: "功能1" }],
+      createMenu: [{ icon: "photo_album", text: "功能1", label: "测试功能1" }],
 
       toggleLeftDrawer,
       loadVillage,

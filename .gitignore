@@ -35,3 +35,6 @@ yarn-error.log*
 # 资源文件
 /public/csv
 /public/map
+
+# 打包文件
+/src-capacitor

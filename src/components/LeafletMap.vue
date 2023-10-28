@@ -5,6 +5,7 @@
       :zoom="zoom"
       :max-zoom="maxZoom"
       :min-zoom="minZoom"
+      :max-bounds="maxBounds"
     >
       <l-tile-layer :url="'/map/{z}/{x}/{y}.jpg'" :max-zoom="maxZoom" />
       <!--添加到地图上 -->
@@ -52,11 +53,13 @@ export default {
     watch(aMapCenter, (_newVlaue, _oldValue) => {
       zoom.value = store.selectedVillageMsg.zoom;
       maxZoom.value = store.selectedVillageMsg.maxZoom;
-      minZoom.value = store.selectedVillageMsg.minzoom;
+      minZoom.value = store.selectedVillageMsg.minZoom;
 
       center.value = store.selectedVillageMsg.center;
       // 地图滑动边界设置，设置地图最大边界范围
       maxBounds.value = store.selectedVillageMsg.maxBounds;
+      console.log("maxBounds设置");
+      console.log(maxBounds.value);
     });
 
     // 监测搜索框搜索住户的数据变换

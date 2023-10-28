@@ -6,7 +6,7 @@
       <div style="font-size: 10vh">关于软件</div>
 
       <div class="text-h2" style="opacity: 0.4">
-        万隆乡警用地理信息系统，软件版本0.0.1开发版
+        万隆派出所智慧警务平台，软件版本0.0.1开发版
       </div>
 
       <q-btn
