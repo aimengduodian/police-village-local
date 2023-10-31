@@ -136,9 +136,7 @@
 </template>
 
 <script>
-import { ref, onMounted, watch } from "vue";
-// 引入pinia插件
-import { useVillageStore } from "stores/village-store";
+import { ref } from "vue";
 
 import SearchHouse from "components/SearchHouse.vue";
 import SearchPerson from "components/SearchPerson.vue";
@@ -153,18 +151,10 @@ export default {
     const leftDrawerOpen = ref(false);
     const search = ref("");
     const storage = ref(0.26);
-    // 状态管理
-    const store = useVillageStore();
 
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
-    // 加载数据
-
-    store.loadVillageCSVData("祥符区", "/csv/祥符区.csv");
-
-    function loadHouseHolderCSV() {}
-    function loadVillage() {}
 
     const firstLevelOptions = ref(null);
     const secondLevelOptions = ref(null);
@@ -180,8 +170,6 @@ export default {
       createMenu: [{ icon: "photo_album", text: "功能1", label: "测试功能1" }],
 
       toggleLeftDrawer,
-      loadVillage,
-      loadHouseHolderCSV,
     };
   },
 };
