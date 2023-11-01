@@ -11,13 +11,11 @@ export const useVillageStore = defineStore("village", {
     allVillagerMsg: {},
     // 村庄信息
     villageMsg: {},
-    // 村庄信息加载信息
-    villageMsgLoadDone: [],
     // 选择的村庄信息（坐标、名称、缩放等级等）
     selectedVillageMsg: {},
     // 选择的村民信息（姓名、家坐标、户id，等信息）
     selectedVillagerMsg: {},
-    // 一家所有户成员信息
+    // 户成员信息(eg: 妻子、儿子、女儿...)
     houseNumberArr: [],
   }),
   getters: {
@@ -38,12 +36,12 @@ export const useVillageStore = defineStore("village", {
         console.log(this.selectedVillagerMsg);
       }
     },
+
     // 存储选择的乡镇信息
     // villageMsg
     saveSelectedVillageMsg(villageMsg) {
       if (villageMsg !== null) {
         this.selectedVillageMsg = villageMsg;
-        console.log(this.selectedVillageMsg);
       }
     },
 

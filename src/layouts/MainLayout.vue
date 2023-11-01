@@ -110,6 +110,16 @@
               <q-icon name="photo" />
             </q-item-section>
             <q-item-section top>
+              <router-link to="/editor">
+                <q-item-label>编辑文档</q-item-label>
+              </router-link>
+            </q-item-section>
+          </q-item>
+          <q-item clickable class="GPL__drawer-item GPL__drawer-item--storage">
+            <q-item-section avatar>
+              <q-icon name="photo" />
+            </q-item-section>
+            <q-item-section top>
               <router-link to="/aboutSoft">
                 <q-item-label>关于软件</q-item-label>
               </router-link>

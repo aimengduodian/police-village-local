@@ -58,8 +58,6 @@ export default {
       center.value = store.selectedVillageMsg.center;
       // 地图滑动边界设置，设置地图最大边界范围
       maxBounds.value = store.selectedVillageMsg.maxBounds;
-      console.log("maxBounds设置");
-      console.log(maxBounds.value);
     });
 
     // 监测搜索框搜索住户的数据变换

@@ -6,7 +6,7 @@ import { useVillageStore } from "stores/village-store";
 export default boot(({ app }) => {
   const store = useVillageStore();
   // 加载xlsx文件
-  fetch("/public/csv/祥符区.xlsx")
+  fetch("/csv/city.xlsx")
     .then((response) => response.arrayBuffer())
     .then((data) => {
       const workbook = XLSX.read(data, { type: "array" });
@@ -19,7 +19,7 @@ export default boot(({ app }) => {
         Element.maxBounds = JSON.parse(Element.maxBounds);
         if (Element.行政区代码.toString().length == 12) {
           const villageName = Element.行政区;
-          const villageFilePath = "/public/csv/" + Element.行政区代码 + ".xlsx";
+          const villageFilePath = "/csv/" + Element.行政区代码 + ".xlsx";
           // 存储村庄信息
           fetch(villageFilePath)
             .then((response) => response.arrayBuffer())
@@ -29,7 +29,7 @@ export default boot(({ app }) => {
               const worksheet = workbook.Sheets[sheetName];
               const jsonData2 = XLSX.utils.sheet_to_json(worksheet);
 
-              // 存储村庄户主信息
+              // 存储户主信息
               jsonData2.forEach((Element) => {
                 Element.经纬度 = JSON.parse(Element.经纬度);
                 if (Element.与户主关系 === "户主") {
@@ -44,6 +44,7 @@ export default boot(({ app }) => {
             });
         }
       });
+      // 存储村庄信息
       store.villageMsg["祥符区"] = jsonData;
     })
     .catch((error) => {
