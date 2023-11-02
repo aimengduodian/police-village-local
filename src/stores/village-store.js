@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import Papa from "papaparse";
 
 export const useVillageStore = defineStore("village", {
   state: () => ({

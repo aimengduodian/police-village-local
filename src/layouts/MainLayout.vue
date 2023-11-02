@@ -77,62 +77,61 @@
       <q-scroll-area class="fit">
         <q-toolbar class="GPL__toolbar">
           <q-toolbar-title class="row items-center text-grey-8">
-            <span class="q-ml-sm">功能列表</span>
+            <span class="q-ml-sm">万隆派出所智慧警务平台</span>
           </q-toolbar-title>
         </q-toolbar>
 
         <q-list padding>
-          <div class="q-gutter-md row items-start">
-            <q-separator class="q-my-md" />
-            <search-house />
-            <!-- 两个select下拉框，实现地图定位功能 -->
-          </div>
+          <q-separator class="q-my-md" />
+          <q-item
+            v-for="link in links1"
+            :key="link.text"
+            clickable
+            class="GPL__drawer-item GPL__drawer-item--storage"
+          >
+            <q-item-section avatar>
+              <q-icon :name="link.icon" />
+            </q-item-section>
+            <q-item-section>
+              <router-link :to="link.router">
+                <q-item-label>{{ link.text }}</q-item-label>
+              </router-link>
+            </q-item-section>
+          </q-item>
+
+          <q-separator class="q-my-md" />
+
+          <q-item
+            v-for="link in links2"
+            :key="link.text"
+            clickable
+            class="GPL__drawer-item GPL__drawer-item--storage"
+          >
+            <q-item-section avatar>
+              <q-icon :name="link.icon" />
+            </q-item-section>
+            <q-item-section>
+              <router-link :to="link.router">
+                <q-item-label>{{ link.text }}</q-item-label>
+              </router-link>
+            </q-item-section>
+          </q-item>
+
           <q-separator class="q-my-md" />
 
           <q-item
             v-for="link in links3"
             :key="link.text"
             clickable
-            class="GPL__drawer-item"
+            class="GPL__drawer-item GPL__drawer-item--storage"
           >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{ link.text }}</q-item-label>
-            </q-item-section>
-          </q-item>
-
-          <q-separator class="q-my-md" />
-
-          <q-item clickable class="GPL__drawer-item GPL__drawer-item--storage">
-            <q-item-section avatar>
-              <q-icon name="photo" />
-            </q-item-section>
-            <q-item-section top>
-              <router-link to="/editor">
-                <q-item-label>编辑文档</q-item-label>
+              <router-link :to="link.router">
+                <q-item-label>{{ link.text }}</q-item-label>
               </router-link>
-            </q-item-section>
-          </q-item>
-          <q-item clickable class="GPL__drawer-item GPL__drawer-item--storage">
-            <q-item-section avatar>
-              <q-icon name="photo" />
-            </q-item-section>
-            <q-item-section top>
-              <router-link to="/aboutSoft">
-                <q-item-label>关于软件</q-item-label>
-              </router-link>
-            </q-item-section>
-          </q-item>
-          <q-item clickable class="GPL__drawer-item GPL__drawer-item--storage">
-            <q-item-section avatar>
-              <q-icon name="cloud" />
-            </q-item-section>
-            <q-item-section top>
-              <q-item-label>进度条</q-item-label>
-              <q-linear-progress :value="storage" class="q-my-sm" />
-              <q-item-label caption>2.6 GB of 15 GB</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -147,13 +146,10 @@
 
 <script>
 import { ref } from "vue";
-
-import SearchHouse from "components/SearchHouse.vue";
 import SearchPerson from "components/SearchPerson.vue";
 
 export default {
   components: {
-    SearchHouse,
     SearchPerson,
   },
   created() {},
@@ -173,10 +169,17 @@ export default {
       leftDrawerOpen,
       storage,
 
-      links3: [
-        { icon: "settings", text: "设置" },
-        { icon: "help", text: "帮助文档" },
+      links1: [{ icon: "map", router: "/", text: "主页" }],
+      links2: [
+        { icon: "help", router: "/doc", text: "软件下载" },
+        { icon: "help", router: "/doc", text: "使用指南" },
+        { icon: "help", router: "/doc", text: "web版配置" },
       ],
+      links3: [
+        { icon: "settings", router: "/editor", text: "编辑文档" },
+        { icon: "settings", router: "/aboutSoft", text: "关于软件" },
+      ],
+
       createMenu: [{ icon: "photo_album", text: "功能1", label: "测试功能1" }],
 
       toggleLeftDrawer,

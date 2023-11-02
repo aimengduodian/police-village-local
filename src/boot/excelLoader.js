@@ -31,7 +31,10 @@ export default boot(({ app }) => {
 
               // 存储户主信息
               jsonData2.forEach((Element) => {
-                Element.经纬度 = JSON.parse(Element.经纬度);
+                const item = [];
+                item.push(Element.纬度);
+                item.push(Element.经度);
+                Element.经纬度 = item;
                 if (Element.与户主关系 === "户主") {
                   store.allHouseHolderMsg.push(Element);
                 }

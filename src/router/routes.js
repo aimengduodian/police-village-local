@@ -4,7 +4,11 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
-      { path: "/aboutSoft", component: () => import("pages/AboutSoft.vue") },
+      {
+        path: "/aboutSoft",
+        component: () => import("components/AboutSoft.vue"),
+      },
+      { path: "/doc", component: () => import("components/HtmlDoc.vue") },
       { path: "/editor", component: () => import("components/EditorPage.vue") },
     ],
   },

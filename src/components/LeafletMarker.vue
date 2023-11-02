@@ -76,13 +76,18 @@ export default {
     const selectHouseId = ref(0);
 
     // 监测搜索框搜索住户的数据变换
-    const aMapCenter2 = computed(() => store.selectedVillagerMsg.公民身份证号);
-    watch(aMapCenter2, (_newVlaue, _oldValue) => {
-      console.log(store.selectedVillagerMsg);
-      // 将住户信息标注在地图上
-      circleLatLng.value = store.selectedVillagerMsg.经纬度;
-      // 复制houseId
-      selectHouseId.value = store.selectedVillagerMsg.户号;
+    const personId = computed(() => store.selectedVillagerMsg.公民身份证号);
+    watch(personId, (_newVlaue, _oldValue) => {
+      if (store.selectedVillagerMsg.纬度 !== 0) {
+        // 将住户信息标注在地图上
+        circleLatLng.value = store.selectedVillagerMsg.经纬度;
+        // 复制houseId，用于获取户成员信息
+        selectHouseId.value = store.selectedVillagerMsg.户号;
+      } else {
+        // 弹框
+        // 提示用户位置信息不存在
+        alert("用户位置信息不存在");
+      }
     });
 
     // 户成员信息
