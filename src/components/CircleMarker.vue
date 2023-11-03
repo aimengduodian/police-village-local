@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, watch, computed } from "vue";
 // 导入leaflet样式和库
 import { LCircle, LPopup } from "@vue-leaflet/vue-leaflet";
 // 引入pinia插件
@@ -71,12 +71,17 @@ export default {
     const aHousePersonList = [];
 
     // 圆形标记的中心坐标
-    // const showCircle = ref(true);
     const circleLatLng = ref([0, 0]);
     const circleRadius = ref(10);
     const circleColor = ref("transparent"); // 'transparent' 透明
-    const fillOpacity = ref(0.8); // 透明度 0 -1
+    const fillOpacity = ref(0.3); // 透明度 0 -1
 
+    const aCircleColor = computed(() => store.circleMarkerState);
+    watch(aCircleColor, (newVlaue, _oldValue) => {
+      circleColor.value = newVlaue;
+    });
+
+    // store.circleMarkerState
     // 户成员信息
     function showHouseMsg(array, aParams) {
       aHousePersonList.splice(0, aHousePersonList.length);

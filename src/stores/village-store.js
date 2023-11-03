@@ -16,6 +16,8 @@ export const useVillageStore = defineStore("village", {
     selectedVillagerMsg: {},
     // 户成员信息(eg: 妻子、儿子、女儿...)
     houseNumberArr: [],
+    // 开发测试功能，circleMarker标志开关
+    circleMarkerState: "transparent",
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
@@ -48,6 +50,13 @@ export const useVillageStore = defineStore("village", {
     saveHouseNumberMsg(aHouseNumber) {
       if (aHouseNumber !== null) {
         this.houseNumberArr = aHouseNumber;
+      }
+    },
+
+    // 存储选择的一户成员信息
+    saveCircleMarkerState(state) {
+      if (state !== null) {
+        this.circleMarkerState = state;
       }
     },
   },

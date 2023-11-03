@@ -8,7 +8,11 @@ const routes = [
         path: "/aboutSoft",
         component: () => import("components/AboutSoft.vue"),
       },
-      { path: "/doc", component: () => import("components/HtmlDoc.vue") },
+      {
+        path: "/doc/:id",
+        name: "html-doc",
+        component: () => import("components/HtmlDoc.vue"),
+      },
       { path: "/editor", component: () => import("components/EditorPage.vue") },
     ],
   },

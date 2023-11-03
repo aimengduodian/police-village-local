@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr fff" class="bg-grey-1">
+  <q-layout view="lHh Lpr fFf" class="bg-grey-1">
     <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GPL__toolbar" style="height: 64px">
         <q-btn
@@ -31,30 +31,11 @@
           >
             <div class="row no-wrap q-pa-md">
               <div class="column">
-                <div class="text-h6 q-mb-md">Settings</div>
+                <div class="text-h6 q-mb-md">辅助功能</div>
                 <q-toggle
-                  v-for="menu in createMenu"
-                  :key="menu.text"
-                  v-model="mobileData"
-                  :label="menu.label"
-                />
-              </div>
-
-              <q-separator vertical inset class="q-mx-lg" />
-
-              <div class="column items-center">
-                <q-avatar size="72px">
-                  <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-                </q-avatar>
-
-                <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
-
-                <q-btn
-                  color="primary"
-                  label="Logout"
-                  push
-                  size="sm"
-                  v-close-popup
+                  v-model="showCircleMarker"
+                  label="显示加载的户主信息"
+                  @update:model-value="switchMarkerState"
                 />
               </div>
             </div>
@@ -73,16 +54,21 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" bordered behavior="mobile">
-      <q-scroll-area class="fit">
-        <q-toolbar class="GPL__toolbar">
-          <q-toolbar-title class="row items-center text-grey-8">
-            <span class="q-ml-sm">万隆派出所智慧警务平台</span>
-          </q-toolbar-title>
-        </q-toolbar>
-
+    <q-drawer
+      show-if-above
+      v-model="leftDrawerOpen"
+      side="left"
+      bordered
+      behavior="mobile"
+    >
+      <q-scroll-area
+        style="
+          height: calc(100% - 150px);
+          margin-top: 150px;
+          border-right: 1px solid #ddd;
+        "
+      >
         <q-list padding>
-          <q-separator class="q-my-md" />
           <q-item
             v-for="link in links1"
             :key="link.text"
@@ -111,7 +97,7 @@
               <q-icon :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <router-link :to="link.router">
+              <router-link :to="{ name: link.name, params: { id: link.key } }">
                 <q-item-label>{{ link.text }}</q-item-label>
               </router-link>
             </q-item-section>
@@ -136,6 +122,15 @@
           </q-item>
         </q-list>
       </q-scroll-area>
+      <q-img class="absolute-top" src="/pic/material.jpg" style="height: 150px">
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="56px" class="q-mb-sm">
+            <img src="/pic/avatar.jpeg" />
+          </q-avatar>
+          <div class="text-weight-bold">万隆派出所智慧警务平台</div>
+          <div>@gpj</div>
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-page-container>
@@ -146,6 +141,8 @@
 
 <script>
 import { ref } from "vue";
+// 引入pinia插件
+import { useVillageStore } from "stores/village-store";
 import SearchPerson from "components/SearchPerson.vue";
 
 export default {
@@ -154,33 +151,49 @@ export default {
   },
   created() {},
   setup() {
+    const store = useVillageStore();
     const leftDrawerOpen = ref(false);
-    const search = ref("");
     const storage = ref(0.26);
 
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
 
-    const firstLevelOptions = ref(null);
-    const secondLevelOptions = ref(null);
+    let showCircleMarker = ref(false);
+
+    function switchMarkerState(aItem) {
+      if (aItem == false) {
+        store.saveCircleMarkerState("transparent");
+      } else {
+        store.saveCircleMarkerState("green");
+      }
+    }
 
     return {
       leftDrawerOpen,
       storage,
+      showCircleMarker,
+      switchMarkerState,
 
       links1: [{ icon: "map", router: "/", text: "主页" }],
       links2: [
-        { icon: "help", router: "/doc", text: "软件下载" },
-        { icon: "help", router: "/doc", text: "使用指南" },
-        { icon: "help", router: "/doc", text: "web版配置" },
+        { icon: "help", key: 1, name: "html-doc", text: "软件下载" },
+        { icon: "help", key: 2, name: "html-doc", text: "表格配置" },
+        { icon: "help", key: 3, name: "html-doc", text: "web版配置" },
       ],
       links3: [
         { icon: "settings", router: "/editor", text: "编辑文档" },
         { icon: "settings", router: "/aboutSoft", text: "关于软件" },
       ],
 
-      createMenu: [{ icon: "photo_album", text: "功能1", label: "测试功能1" }],
+      createMenu: [
+        {
+          icon: "photo_album",
+          model: false,
+          key: "1",
+          label: "显示加载的户主信息",
+        },
+      ],
 
       toggleLeftDrawer,
     };
