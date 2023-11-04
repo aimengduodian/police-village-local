@@ -5,7 +5,24 @@ import { useVillageStore } from "stores/village-store";
 
 export default boot(({ app }) => {
   const store = useVillageStore();
-  // 加载xlsx文件
+  // 加载config文件
+  fetch("/csv/config.xlsx")
+    .then((response) => response.arrayBuffer())
+    .then((data) => {
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      jsonData.forEach((Element) => {
+        // 存储村庄信息
+        store.softName = Element.软件名称;
+      });
+    })
+    .catch((error) => {
+      console.error("Error loading Excel data:", error);
+    });
+  // 加载地图相关文件
   fetch("/csv/city.xlsx")
     .then((response) => response.arrayBuffer())
     .then((data) => {

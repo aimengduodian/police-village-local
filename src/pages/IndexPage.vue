@@ -13,7 +13,7 @@
           @click="seamless = true"
           color="primary"
           icon="map"
-          label="切换乡镇"
+          label="传送门"
         />
       </q-fab>
     </q-page-sticky>
@@ -21,8 +21,15 @@
     <div id class="q-pa-md q-gutter-sm">
       <q-dialog v-model="seamless" seamless position="bottom">
         <q-card style="width: 350px">
-          <q-linear-progress :value="0.6" color="primary" />
-
+          <q-card-actions align="left">
+            <q-toggle
+              v-model="lockArea"
+              checked-icon="check"
+              color="primary"
+              label="锁定区域"
+              unchecked-icon="clear"
+            />
+          </q-card-actions>
           <q-card-section class="items-center no-wrap">
             <q-item>
               <q-item-section avatar>
@@ -61,7 +68,7 @@
               <q-btn
                 flat
                 right
-                label="选择完成"
+                label="隐藏面板"
                 color="primary"
                 v-close-popup
               />
@@ -94,19 +101,24 @@ export default {
     const selectedItem = ref(null);
     const selectedSubItem = ref(null);
     let selectKey = 1;
+    let lockArea = ref(false);
 
     watch(selectedSubItem, (_newVlaue, _oldValue) => {
       if (selectedSubItem.value !== null) {
         const aVillageMsg = {};
         aVillageMsg.center = selectedSubItem.value.center;
         aVillageMsg.label = selectedSubItem.value.label;
-        aVillageMsg.maxBounds = selectedSubItem.value.maxBounds;
         aVillageMsg.minZoom = selectedSubItem.value.minZoom;
         aVillageMsg.value = selectedSubItem.value.value;
         aVillageMsg.zoom = selectedSubItem.value.zoom;
 
         store.saveSelectedVillageMsg(aVillageMsg);
+        store.saveMaxBounds(selectedSubItem.value.maxBounds);
       }
+    });
+
+    watch(lockArea, (_newVlaue, _oldValue) => {
+      store.saveLockArea(lockArea);
     });
 
     function filterFn(_val, update, _abort) {
@@ -160,6 +172,7 @@ export default {
     }
 
     return {
+      lockArea,
       seamless,
       selectedItem,
       selectedSubItem,

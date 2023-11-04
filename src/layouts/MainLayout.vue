@@ -13,9 +13,7 @@
         />
         <q-toolbar-title shrink class="row items-center no-wrap">
           <img src="/pic/title.png" v-if="$q.screen.gt.sm" />
-          <span class="q-ml-sm" v-if="$q.screen.gt.xs"
-            >万隆派出所智慧警务平台</span
-          >
+          <span class="q-ml-sm" v-if="$q.screen.gt.xs">{{ softName }}</span>
         </q-toolbar-title>
 
         <q-space />
@@ -119,15 +117,16 @@
                 <q-item-label>{{ link.text }}</q-item-label>
               </router-link>
             </q-item-section>
-          </q-item>
-        </q-list>
+          </q-item> </q-list
+        >b
       </q-scroll-area>
       <q-img class="absolute-top" src="/pic/material.jpg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
-          <q-avatar size="56px" class="q-mb-sm">
+          <q-avatar size="56px" class="q-mb-sm"
+            >i
             <img src="/pic/avatar.jpeg" />
           </q-avatar>
-          <div class="text-weight-bold">万隆派出所智慧警务平台</div>
+          <div class="text-weight-bold">{{ softName }}</div>
           <div>@gpj</div>
         </div>
       </q-img>
@@ -154,6 +153,7 @@ export default {
     const store = useVillageStore();
     const leftDrawerOpen = ref(false);
     const storage = ref(0.26);
+    const softName = ref(store.softName);
 
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -170,6 +170,7 @@ export default {
     }
 
     return {
+      softName,
       leftDrawerOpen,
       storage,
       showCircleMarker,
@@ -177,9 +178,9 @@ export default {
 
       links1: [{ icon: "map", router: "/", text: "主页" }],
       links2: [
-        { icon: "help", key: 1, name: "html-doc", text: "软件下载" },
+        { icon: "help", key: 3, name: "html-doc", text: "软件下载" },
         { icon: "help", key: 2, name: "html-doc", text: "表格配置" },
-        { icon: "help", key: 3, name: "html-doc", text: "web版配置" },
+        { icon: "help", key: 1, name: "html-doc", text: "BS架构配置" },
       ],
       links3: [
         { icon: "settings", router: "/editor", text: "编辑文档" },

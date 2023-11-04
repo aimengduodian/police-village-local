@@ -4,6 +4,10 @@ export const useVillageStore = defineStore("village", {
   state: () => ({
     // 登录用户
     user: null,
+    // 软件名称，
+    softName: "",
+    // 软件介绍
+    softDes: "",
     // 所有户主信息
     allHouseHolderMsg: [],
     // 所有村民信息
@@ -12,6 +16,16 @@ export const useVillageStore = defineStore("village", {
     villageMsg: {},
     // 选择的村庄信息（坐标、名称、缩放等级等）
     selectedVillageMsg: {},
+    // 锁定区域,当lockArea为false，MaxBounds赋值为villageMaxBounds
+    // 否则设置为lockMaxBounds
+    nowMaxBounds: {
+      lockArea: false,
+      MaxBounds: [
+        [34.98626, 114.97584],
+        [34.44839, 113.87584],
+      ],
+      villageMaxBounds: [],
+    },
     // 选择的村民信息（姓名、家坐标、户id，等信息）
     selectedVillagerMsg: {},
     // 户成员信息(eg: 妻子、儿子、女儿...)
@@ -30,6 +44,11 @@ export const useVillageStore = defineStore("village", {
     },
   },
   actions: {
+    // 加载软件名称和版本号
+    setSoftNameAndVersionMsg(aName, aDes) {
+      this.softName = aName;
+      this.softDes = aDes;
+    },
     // 存储选择的村民信息
     saveSelectedVillagerMsg(villagerMsg) {
       if (villagerMsg !== null) {
@@ -44,6 +63,16 @@ export const useVillageStore = defineStore("village", {
       if (villageMsg !== null) {
         this.selectedVillageMsg = villageMsg;
       }
+    },
+
+    // 存储maxBounds信息
+    saveMaxBounds(bounds) {
+      this.nowMaxBounds.villageMaxBounds = bounds;
+    },
+
+    // 存储lockArea信息
+    saveLockArea(lock) {
+      this.nowMaxBounds.lockArea = lock;
     },
 
     // 存储选择的一户成员信息

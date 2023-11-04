@@ -43,21 +43,38 @@ export default {
 
     const center = ref([34.60999648, 114.43005323]);
     // 地图滑动边界设置，设置地图最大边界范围
-    const maxBounds = ref([
-      [34.61936, 114.44316],
-      [34.59549, 114.41917],
-    ]);
+    const maxBounds = ref(null);
 
     // 监测搜索村庄信息数据变换
-    const aMapCenter = computed(() => store.selectedVillageMsg.center);
+    const aMapCenter = computed(() => store.selectedVillageMsg);
     watch(aMapCenter, (_newVlaue, _oldValue) => {
+      console.log("aMapCenter");
+
+      console.log(store.nowMaxBounds);
       zoom.value = store.selectedVillageMsg.zoom;
       maxZoom.value = store.selectedVillageMsg.maxZoom;
       minZoom.value = store.selectedVillageMsg.minZoom;
 
       center.value = store.selectedVillageMsg.center;
       // 地图滑动边界设置，设置地图最大边界范围
-      maxBounds.value = store.selectedVillageMsg.maxBounds;
+      if (store.nowMaxBounds.lockArea) {
+        maxBounds.value = store.nowMaxBounds.villageMaxBounds;
+      } else {
+        maxBounds.value = store.nowMaxBounds.MaxBounds;
+      }
+    });
+
+    // 监测nowMaxBounds信息
+    const aMaxBounds = computed(() => store.nowMaxBounds);
+    watch(aMaxBounds, (_newVlaue, _oldValue) => {
+      console.log("watchMaxBounds");
+      console.log(aMaxBounds);
+
+      if (aMaxBounds.value.lockArea) {
+        maxBounds.value = aMaxBounds.value.villageMaxBounds;
+      } else {
+        maxBounds.value = aMaxBounds.value.MaxBounds;
+      }
     });
 
     // 监测搜索框搜索住户的数据变换
