@@ -28,6 +28,7 @@
               color="primary"
               label="锁定区域"
               unchecked-icon="clear"
+              :disable="lockAreaToggle"
             />
           </q-card-actions>
           <q-card-section class="items-center no-wrap">
@@ -102,6 +103,7 @@ export default {
     const selectedSubItem = ref(null);
     let selectKey = 1;
     let lockArea = ref(false);
+    let lockAreaToggle = ref(true);
 
     watch(selectedSubItem, (_newVlaue, _oldValue) => {
       if (selectedSubItem.value !== null) {
@@ -111,14 +113,22 @@ export default {
         aVillageMsg.minZoom = selectedSubItem.value.minZoom;
         aVillageMsg.value = selectedSubItem.value.value;
         aVillageMsg.zoom = selectedSubItem.value.zoom;
+        aVillageMsg.maxBounds = selectedSubItem.value.maxBounds;
 
         store.saveSelectedVillageMsg(aVillageMsg);
         store.saveMaxBounds(selectedSubItem.value.maxBounds);
+
+        // 锁定区域按钮可以使用
+        lockAreaToggle.value = false;
       }
     });
 
     watch(lockArea, (newVlaue, _oldValue) => {
-      store.saveLockArea(newVlaue);
+      const selectLen = Object.keys(store.selectedVillageMsg).length;
+      if (selectLen > 0) {
+        store.saveMaxBounds(store.selectedVillageMsg.maxBounds);
+        store.saveLockArea(newVlaue);
+      }
     });
 
     function filterFn(_val, update, _abort) {
@@ -173,6 +183,7 @@ export default {
 
     return {
       lockArea,
+      lockAreaToggle,
       seamless,
       selectedItem,
       selectedSubItem,

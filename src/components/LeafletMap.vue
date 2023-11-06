@@ -64,17 +64,10 @@ export default {
     // 监测nowMaxBounds信息
     const aMaxBounds = computed(() => store.nowMaxBounds.lockArea);
     watch(aMaxBounds, (_newVlaue, _oldValue) => {
-      console.log("watchMaxBounds");
-
       if (aMaxBounds.value) {
-        maxBounds.value = aMaxBounds.value.villageMaxBounds;
-        console.log("true");
-        console.log(maxBounds.value);
+        maxBounds.value = store.nowMaxBounds.villageMaxBounds;
       } else {
-        maxBounds.value = aMaxBounds.value.MaxBounds;
-
-        console.log("false");
-        console.log(maxBounds.value);
+        maxBounds.value = store.nowMaxBounds.MaxBounds;
       }
     });
 
