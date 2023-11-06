@@ -117,8 +117,8 @@ export default {
       }
     });
 
-    watch(lockArea, (_newVlaue, _oldValue) => {
-      store.saveLockArea(lockArea);
+    watch(lockArea, (newVlaue, _oldValue) => {
+      store.saveLockArea(newVlaue);
     });
 
     function filterFn(_val, update, _abort) {

@@ -35,13 +35,6 @@ export const useVillageStore = defineStore("village", {
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
-    getVillageMsg(state) {
-      return state.villageMsg;
-    },
-
-    getAllVillagerMsg(state) {
-      return state.allVillagerMsg;
-    },
   },
   actions: {
     // 加载软件名称和版本号
@@ -70,7 +63,7 @@ export const useVillageStore = defineStore("village", {
       this.nowMaxBounds.villageMaxBounds = bounds;
     },
 
-    // 存储lockArea信息
+    // 存储lockArea信息,是否锁定区域
     saveLockArea(lock) {
       this.nowMaxBounds.lockArea = lock;
     },
@@ -86,6 +79,21 @@ export const useVillageStore = defineStore("village", {
     saveCircleMarkerState(state) {
       if (state !== null) {
         this.circleMarkerState = state;
+      }
+    },
+
+    // 存储所有户主信息
+    savehouseHolder(state) {
+      if (state !== null) {
+        this.allHouseHolderMsg.push(state);
+      }
+    },
+
+    // 存储所有villager信息
+    // villageName: String; villageMsg: Object
+    saveAllVillagerMsg(villageName, villageMsg) {
+      if (villageName !== "" && villageMsg !== null) {
+        this.allVillagerMsg[villageName] = villageMsg;
       }
     },
   },

@@ -22,6 +22,7 @@ export default boot(({ app }) => {
     .catch((error) => {
       console.error("Error loading Excel data:", error);
     });
+
   // 加载地图相关文件
   fetch("/csv/city.xlsx")
     .then((response) => response.arrayBuffer())
@@ -32,12 +33,13 @@ export default boot(({ app }) => {
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
       jsonData.forEach((Element) => {
+        // 序列化center和maxBounds
         Element.center = JSON.parse(Element.center);
         Element.maxBounds = JSON.parse(Element.maxBounds);
         if (Element.行政区代码.toString().length == 12) {
           const villageName = Element.行政区;
           const villageFilePath = "/csv/" + Element.行政区代码 + ".xlsx";
-          // 存储村庄信息
+          // 获取村庄信息
           fetch(villageFilePath)
             .then((response) => response.arrayBuffer())
             .then((data) => {
@@ -47,17 +49,17 @@ export default boot(({ app }) => {
               const jsonData2 = XLSX.utils.sheet_to_json(worksheet);
 
               // 存储户主信息
-              jsonData2.forEach((Element) => {
+              jsonData2.forEach((houseHolder) => {
                 const item = [];
-                item.push(Element.纬度);
-                item.push(Element.经度);
-                Element.经纬度 = item;
-                if (Element.与户主关系 === "户主") {
-                  store.allHouseHolderMsg.push(Element);
+                item.push(houseHolder.纬度);
+                item.push(houseHolder.经度);
+                houseHolder.经纬度 = item;
+                if (houseHolder.与户主关系 === "户主") {
+                  store.savehouseHolder(houseHolder);
                 }
               });
 
-              store.allVillagerMsg[villageName] = jsonData2;
+              store.saveAllVillagerMsg(villageName, jsonData2);
             })
             .catch((error) => {
               console.error("Error loading Excel data:", error);

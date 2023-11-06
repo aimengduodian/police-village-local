@@ -48,9 +48,6 @@ export default {
     // 监测搜索村庄信息数据变换
     const aMapCenter = computed(() => store.selectedVillageMsg);
     watch(aMapCenter, (_newVlaue, _oldValue) => {
-      console.log("aMapCenter");
-
-      console.log(store.nowMaxBounds);
       zoom.value = store.selectedVillageMsg.zoom;
       maxZoom.value = store.selectedVillageMsg.maxZoom;
       minZoom.value = store.selectedVillageMsg.minZoom;
@@ -65,21 +62,28 @@ export default {
     });
 
     // 监测nowMaxBounds信息
-    const aMaxBounds = computed(() => store.nowMaxBounds);
+    const aMaxBounds = computed(() => store.nowMaxBounds.lockArea);
     watch(aMaxBounds, (_newVlaue, _oldValue) => {
       console.log("watchMaxBounds");
-      console.log(aMaxBounds);
 
-      if (aMaxBounds.value.lockArea) {
+      if (aMaxBounds.value) {
         maxBounds.value = aMaxBounds.value.villageMaxBounds;
+        console.log("true");
+        console.log(maxBounds.value);
       } else {
         maxBounds.value = aMaxBounds.value.MaxBounds;
+
+        console.log("false");
+        console.log(maxBounds.value);
       }
     });
 
     // 监测搜索框搜索住户的数据变换
     const aMapCenter2 = computed(() => store.selectedVillagerMsg.公民身份证号);
     watch(aMapCenter2, (_newVlaue, _oldValue) => {
+      // 解除地图锁定
+      store.saveLockArea(false);
+
       // 更改地图中心位置
       center.value = store.selectedVillagerMsg.经纬度;
     });
