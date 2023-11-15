@@ -35,6 +35,19 @@ export const useVillageStore = defineStore("village", {
   }),
   getters: {
     //doubleCount: (state) => state.counter * 2,
+    // 获取户成员信息
+    getHouseNumberMsg: (state) => {
+      const aHousePersonList = [];
+      const array = state.allVillagerMsg;
+      for (var key in array) {
+        for (var i = 0; i < array[key].length; i++) {
+          if (array[key][i].户号 == state.selectedVillagerMsg.户号) {
+            aHousePersonList.push(array[key][i]);
+          }
+        }
+      }
+      return aHousePersonList;
+    },
   },
   actions: {
     // 加载软件名称和版本号
@@ -46,7 +59,6 @@ export const useVillageStore = defineStore("village", {
     saveSelectedVillagerMsg(villagerMsg) {
       if (villagerMsg !== null) {
         this.selectedVillagerMsg = villagerMsg;
-        console.log(this.selectedVillagerMsg);
       }
     },
 

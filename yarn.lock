@@ -305,6 +305,52 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@turf/bearing@^3.7.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@turf/bearing/-/bearing-3.14.0.tgz#20027469ab2933ac08d7a29de4dee5ccaa6ac549"
+  integrity sha512-vLM/1quN90vidACt4r9rzZvAB+8EqianGe01Epku5920eEM1EZ96vuC2WnXGc6r2FEpOaXZHzqhxU5xgsYMgkg==
+  dependencies:
+    "@turf/invariant" "^3.13.0"
+
+"@turf/centroid@^3.7.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@turf/centroid/-/centroid-3.14.0.tgz#b5bba8d5f32d4224a893f08dc274690ff9723d06"
+  integrity sha512-0ykMQD9xoz9UjEy/hUR6BPhft91XoAHNlbPN5l+g4dLkKExTgiH1qFJ84S9SPKZvmwKTMPcdXU9QT8IL+nmVKw==
+  dependencies:
+    "@turf/helpers" "^3.13.0"
+    "@turf/meta" "^3.14.0"
+
+"@turf/destination@^3.7.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@turf/destination/-/destination-3.14.0.tgz#ec9e65c419d99733bcaeb03f39b48f42d54ac36c"
+  integrity sha512-Cgrxs7yxIwxWpQQaUsMexXP6XoT8+IcbkjWFk0HtJQkQrt1bFNnpHu2hnh778xrGvBzs6roHulr4a+RMP4yMPA==
+  dependencies:
+    "@turf/helpers" "^3.13.0"
+    "@turf/invariant" "^3.13.0"
+
+"@turf/distance@^3.7.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@turf/distance/-/distance-3.14.0.tgz#71b0c6f265d23bb3004198e6da32f82964f42f8b"
+  integrity sha512-/04cWjzbhW9CdMF17xf5ZLgPC2r/wiPnzp0s9Q0pdNjsOKO7DXEQOi1jdFci18IiioeDwvNQUk4yt5G5pnE94A==
+  dependencies:
+    "@turf/helpers" "^3.13.0"
+    "@turf/invariant" "^3.13.0"
+
+"@turf/helpers@^3.13.0":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@turf/helpers/-/helpers-3.13.0.tgz#d06078a1464cf56cdb7ea624ea1e13a71b88b806"
+  integrity sha512-iDtLM9XHGhQUN0hxLGAKJTmaNnM7ffxdAVVrIRQUREatb78ls9seqwnpM2JSFc8ZgFEapwRhHK8FRBH6zIbHkA==
+
+"@turf/invariant@^3.13.0":
+  version "3.13.0"
+  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-3.13.0.tgz#89243308cd563206e81e5c6162e0d22f61822f90"
+  integrity sha512-tqqatJteAlV4CPdAbAAo8DlBFJzlu5cI747/mO8Rfpd70vDvcFzm65RIp/fxvdEP5sSfdc9qsQS4DU2z0bURIA==
+
+"@turf/meta@^3.14.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-3.14.0.tgz#8d3050c1a0f44bf406a633b6bd28c510f7bcee27"
+  integrity sha512-OtXqLQuR9hlQ/HkAF/OdzRea7E0eZK1ay8y8CBXkoO2R6v34CsDrWYLMSo0ZzMsaQDpKo76NPP2GGo+PyG1cSg==
+
 "@types/body-parser@*":
   version "1.19.4"
   resolved "https://registry.npmjs.org/@types/body-parser/-/body-parser-1.19.4.tgz"
@@ -1557,6 +1603,16 @@ fd-slicer@~1.1.0:
   dependencies:
     pend "~1.2.0"
 
+field-of-view@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/field-of-view/-/field-of-view-0.2.2.tgz#45fdd83d9c16215541233f8727cb355c3e24fa9e"
+  integrity sha512-EpsHQ4SWTd8lx3Ez84Vtfv4hnWwPqU2Pu9Ysfld21jFdZAnEExu/SWTXA/SxH4ApwTJYqn0qqOv8B18QFbN5nA==
+  dependencies:
+    "@turf/bearing" "^3.7.0"
+    "@turf/centroid" "^3.7.0"
+    "@turf/destination" "^3.7.0"
+    "@turf/distance" "^3.7.0"
+
 figures@^3.0.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/figures/-/figures-3.2.0.tgz"
@@ -2065,9 +2121,27 @@ lazystream@^1.0.0:
   dependencies:
     readable-stream "^2.0.5"
 
-leaflet@^1.9.4:
+leaflet-draw@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/leaflet-draw/-/leaflet-draw-1.0.4.tgz#45be92f378ed253e7202fdeda1fcc71885198d46"
+  integrity sha512-rsQ6saQO5ST5Aj6XRFylr5zvarWgzWnrg46zQ1MEOEIHsppdC/8hnN8qMoFvACsPvTioAuysya/TVtog15tyAQ==
+
+leaflet-geotag-photo@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/leaflet-geotag-photo/-/leaflet-geotag-photo-0.6.2.tgz#e364501b3721d10879822f8008f10ea7e4670ce8"
+  integrity sha512-2/X6KD46M7+wLVQS8xwr3NX/hlrx75wYwG5Hzv1UC7/WzL0NUfZ6MfN8TL6Pihl2n9gKijlwIGbzglnUY5VuiA==
+  dependencies:
+    field-of-view "^0.2.2"
+    leaflet "^1.0.2"
+
+leaflet-responsive-popup@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/leaflet-responsive-popup/-/leaflet-responsive-popup-1.0.0.tgz#5d6011debb46c339b0fe8c8e84da4ebf7229a699"
+  integrity sha512-BEPnq057TyTtBH5I98SMWqH4p/Usi6yirWPUSIYI2EGjXN3/HbyTPjTmEe6Z2RXBTBzEN3nMC8ZkaRWQ0pWfeQ==
+
+leaflet@^1.0.2, leaflet@^1.9.4:
   version "1.9.4"
-  resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz"
+  resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.9.4.tgz#23fae724e282fa25745aff82ca4d394748db7d8d"
   integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
 
 levn@^0.4.1:

@@ -74,7 +74,6 @@ export default {
     watch(model, (newVlaue, _oldValue) => {
       //获取
       store.saveSelectedVillagerMsg(newVlaue);
-      console.log(newVlaue);
     });
     return {
       model,

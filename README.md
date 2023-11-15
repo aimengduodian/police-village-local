@@ -55,3 +55,14 @@ yarn quasar build -m capacitor -T android
 ```bash
 yarn quasar build -m capacitor -T android --ide
 ```
+
+### GIT
+
+```bash
+git branch feature-branch # 创建名为 "feature-branch" 的分支
+git checkout feature-branch # 切换到 "feature-branch" 分支
+```
+
+### 在此进行开发...
+
+git merge master # 将 "feature-branch" 分支合并到主分支 "master"
