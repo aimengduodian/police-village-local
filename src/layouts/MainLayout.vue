@@ -176,7 +176,10 @@ export default {
       showCircleMarker,
       switchMarkerState,
 
-      links1: [{ icon: "map", router: "/", text: "主页" }],
+      links1: [
+        { icon: "map", router: "/", text: "主页" },
+        { icon: "map", router: "/addMsg", text: "添加信息" },
+      ],
       links2: [
         { icon: "help", key: 3, name: "html-doc", text: "软件下载" },
         { icon: "help", key: 2, name: "html-doc", text: "表格配置" },

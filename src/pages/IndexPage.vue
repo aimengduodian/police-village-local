@@ -114,8 +114,11 @@ export default {
         aVillageMsg.value = selectedSubItem.value.value;
         aVillageMsg.zoom = selectedSubItem.value.zoom;
         aVillageMsg.maxBounds = selectedSubItem.value.maxBounds;
-
-        store.saveSelectedVillageMsg(aVillageMsg);
+        console.log(aVillageMsg);
+        // aVillageMsg.code
+        if (aVillageMsg.value.length > 9) {
+          store.saveSelectedVillageMsg(aVillageMsg);
+        }
         store.saveMaxBounds(selectedSubItem.value.maxBounds);
 
         // 锁定区域按钮可以使用

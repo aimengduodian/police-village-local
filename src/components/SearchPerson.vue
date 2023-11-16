@@ -73,7 +73,7 @@ export default {
     }
     watch(model, (newVlaue, _oldValue) => {
       //获取
-      store.saveSelectedVillagerMsg(newVlaue);
+      store.saveSelectedVillagerMsg(newVlaue, 1);
     });
     return {
       model,

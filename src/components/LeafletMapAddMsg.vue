@@ -1,60 +1,5 @@
 <template>
   <div id="leaflet-map" ref="mapContainer" />
-  <q-dialog
-    v-model="houseNumberDialog"
-    persistent
-    :maximized="maximizedToggle"
-    transition-show="slide-up"
-    transition-hide="slide-down"
-  >
-    <q-card class="bg-primary text-white">
-      <q-bar>
-        <q-space />
-
-        <q-btn
-          dense
-          flat
-          icon="minimize"
-          @click="maximizedToggle = false"
-          :disable="!maximizedToggle"
-        >
-          <q-tooltip v-if="maximizedToggle" class="bg-white text-primary"
-            >Minimize</q-tooltip
-          >
-        </q-btn>
-        <q-btn
-          dense
-          flat
-          icon="crop_square"
-          @click="maximizedToggle = true"
-          :disable="maximizedToggle"
-        >
-          <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary"
-            >Maximize</q-tooltip
-          >
-        </q-btn>
-        <q-btn dense flat icon="close" v-close-popup>
-          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
-        </q-btn>
-      </q-bar>
-
-      <q-card-section
-        class="q-pt-none"
-        v-for="(house, index) in aFamilyMembersList"
-        :key="index"
-      >
-        <div class="text-h4 q-mb-md">
-          {{ house.与户主关系 }}:{{ house.姓名 }}
-        </div>
-        <p>
-          性别: {{ house.性别 }} <br />
-          出生日期: {{ house.出生日期 }} <br />
-          公民身份证号: {{ house.公民身份证号 }}<br />
-          电话号码: {{ house.电话号码 }}<br />
-        </p>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
 </template>
 
 <script>
@@ -155,10 +100,10 @@ export default {
       aAllHouseHolderArr.forEach((element) => {
         L.circle(element.经纬度, {
           villager: element,
-          color: "blue",
+          color: "red",
           fillColor: "#f03",
-          fillOpacity: 0.3,
-          radius: 10,
+          fillOpacity: 0.5,
+          radius: 5,
         })
           .addTo(map.value)
           .bindPopup(popup.value)
