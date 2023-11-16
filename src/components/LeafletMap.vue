@@ -76,8 +76,6 @@ export default {
     const zoom = ref(16);
     const maxZoom = ref(19);
     const minZoom = ref(15);
-    // 地图滑动边界设置，设置地图最大边界范围
-    const maxBounds = ref(null);
 
     // 户成员信息
     const aFamilyMembersList = ref(null);
@@ -109,17 +107,17 @@ export default {
       center.value = store.selectedVillageMsg.center;
       // 地图滑动边界设置，设置地图最大边界范围
       if (store.nowMaxBounds.lockArea) {
-        maxBounds.value = store.nowMaxBounds.villageMaxBounds;
+        map.value.setMaxBounds(store.nowMaxBounds.villageMaxBounds);
       } else {
-        maxBounds.value = store.nowMaxBounds.MaxBounds;
+        map.value.setMaxBounds(store.nowMaxBounds.MaxBounds);
       }
     });
 
     watch(aMaxBounds, (_newVlaue, _oldValue) => {
       if (aMaxBounds.value) {
-        maxBounds.value = store.nowMaxBounds.villageMaxBounds;
+        map.value.setMaxBounds(store.nowMaxBounds.villageMaxBounds);
       } else {
-        maxBounds.value = store.nowMaxBounds.MaxBounds;
+        map.value.setMaxBounds(store.nowMaxBounds.MaxBounds);
       }
     });
 
@@ -213,7 +211,6 @@ export default {
         attribution: "© OpenStreetMap",
         maxZoom: maxZoom.value,
         minZoom: minZoom.value,
-        maxBounds: maxBounds.value,
       }).addTo(map.value);
     });
 
