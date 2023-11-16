@@ -9,7 +9,7 @@ export const useVillageStore = defineStore("village", {
     // 软件介绍
     softDes: "",
     // 所有户主信息
-    allHouseHolderMsg: [],
+    allHouseHolderMsg: {},
     // 所有村民信息
     allVillagerMsg: {},
     // 村庄信息
@@ -29,7 +29,7 @@ export const useVillageStore = defineStore("village", {
     // 选择的村民信息（姓名、家坐标、户id，等信息）
     selectedVillagerMsg: {},
     // 户成员信息(eg: 妻子、儿子、女儿...)
-    houseNumberArr: [],
+    houseId: "",
     // 开发测试功能，circleMarker标志开关
     circleMarkerState: "transparent",
   }),
@@ -39,14 +39,20 @@ export const useVillageStore = defineStore("village", {
     getHouseNumberMsg: (state) => {
       const aHousePersonList = [];
       const array = state.allVillagerMsg;
-      for (var key in array) {
-        for (var i = 0; i < array[key].length; i++) {
-          if (array[key][i].户号 == state.selectedVillagerMsg.户号) {
+      for (let key in array) {
+        for (let i = 0; i < array[key].length; i++) {
+          if (array[key][i].户号 == state.houseId) {
             aHousePersonList.push(array[key][i]);
           }
         }
       }
       return aHousePersonList;
+    },
+    // 获取村庄的户主信息列表
+    getVillageHouseHolderMsg: (state) => {
+      const aVillageCode = state.selectedVillageMsg.value;
+
+      return state.allHouseHolderMsg[aVillageCode];
     },
   },
   actions: {
@@ -55,10 +61,12 @@ export const useVillageStore = defineStore("village", {
       this.softName = aName;
       this.softDes = aDes;
     },
+
     // 存储选择的村民信息
     saveSelectedVillagerMsg(villagerMsg) {
       if (villagerMsg !== null) {
         this.selectedVillagerMsg = villagerMsg;
+        this.houseId = villagerMsg.户号;
       }
     },
 
@@ -80,24 +88,18 @@ export const useVillageStore = defineStore("village", {
       this.nowMaxBounds.lockArea = lock;
     },
 
-    // 存储选择的一户成员信息
-    saveHouseNumberMsg(aHouseNumber) {
-      if (aHouseNumber !== null) {
-        this.houseNumberArr = aHouseNumber;
-      }
-    },
-
-    // 存储选择的一户成员信息
-    saveCircleMarkerState(state) {
-      if (state !== null) {
-        this.circleMarkerState = state;
+    // 村庄村民标记颜色信息
+    // rMsg = transparent 透明
+    saveCircleMarkerState(rMsg) {
+      if (rMsg !== null) {
+        this.circleMarkerState = rMsg;
       }
     },
 
     // 存储所有户主信息
-    savehouseHolder(state) {
-      if (state !== null) {
-        this.allHouseHolderMsg.push(state);
+    savehouseHolder(rVillageCode, rVillageHouseHolderArr) {
+      if (rVillageCode !== "" && rVillageHouseHolderArr !== null) {
+        this.allHouseHolderMsg[rVillageCode] = rVillageHouseHolderArr;
       }
     },
 

@@ -40,7 +40,7 @@
 
       <q-card-section
         class="q-pt-none"
-        v-for="(house, index) in houseNumberArr"
+        v-for="(house, index) in aFamilyMembersList"
         :key="index"
       >
         <div class="text-h4 q-mb-md">
@@ -80,7 +80,7 @@ export default {
     const maxBounds = ref(null);
 
     // 户成员信息
-    const houseNumberArr = ref(null);
+    const aFamilyMembersList = ref(null);
     // 户成员信息弹窗
     const houseNumberDialog = ref(false);
     // 绑定弹出窗口
@@ -95,6 +95,13 @@ export default {
 
     // 监测搜索村庄信息数据变换
     const aMapCenter = computed(() => store.selectedVillageMsg);
+    // 监测nowMaxBounds信息
+    const aMaxBounds = computed(() => store.nowMaxBounds.lockArea);
+    // 监测搜索框搜索住户的数据变换
+    const aVillager = computed(() => store.selectedVillagerMsg.公民身份证号);
+    // 检测选择的村庄信息变化
+    const aSelectVillage = computed(() => store.selectedVillageMsg);
+
     watch(aMapCenter, (_newVlaue, _oldValue) => {
       zoom.value = store.selectedVillageMsg.zoom;
       maxZoom.value = store.selectedVillageMsg.maxZoom;
@@ -109,8 +116,6 @@ export default {
       }
     });
 
-    // 监测nowMaxBounds信息
-    const aMaxBounds = computed(() => store.nowMaxBounds.lockArea);
     watch(aMaxBounds, (_newVlaue, _oldValue) => {
       if (aMaxBounds.value) {
         maxBounds.value = store.nowMaxBounds.villageMaxBounds;
@@ -119,8 +124,6 @@ export default {
       }
     });
 
-    // 监测搜索框搜索住户的数据变换
-    const aVillager = computed(() => store.selectedVillagerMsg.公民身份证号);
     watch(aVillager, (_newVlaue, _oldValue) => {
       // 解除地图锁定
       store.saveLockArea(false);
@@ -134,55 +137,55 @@ export default {
         .bindPopup(popup.value);
 
       // 更新弹出内容
-      updatePopupContent();
+      updatePopupContent(store.selectedVillagerMsg);
     });
 
-    onMounted(() => {
-      map.value = L.map(mapContainer.value).setView(center.value, zoom.value);
-      L.tileLayer("/map/{z}/{x}/{y}.jpg", {
-        center: center.value,
-        attribution: "© OpenStreetMap",
-        maxZoom: maxZoom.value,
-        minZoom: minZoom.value,
-      }).addTo(map.value);
+    watch(aSelectVillage, (_newVlaue, _oldValue) => {
+      // 村庄的所有户主信息
+      const aAllHouseHolderArr = store.getVillageHouseHolderMsg;
+      // 村庄的中心位置
+      const aCenter = aSelectVillage.value.center;
 
-      houseNumberArr.value = store.houseNumberArr;
+      console.log("aAllvillagerMsg");
+      console.log(aSelectVillage);
+
+      // 移动地图到目标位置
+      map.value.panTo(aCenter);
+
+      // 移除所有标记
+      removeMarkers();
+
+      // 添加标记
+      aAllHouseHolderArr.forEach((element) => {
+        L.circle(element.经纬度, {
+          villager: element,
+          color: "red",
+          fillColor: "#f03",
+          fillOpacity: 0.5,
+          radius: 5,
+        })
+          .addTo(map.value)
+          .bindPopup(popup.value)
+          .on("click", function (e) {
+            store.saveSelectedVillagerMsg(e.target.options.villager);
+          });
+      });
     });
-
-    // 添加标记
-    // rMarker  1: marker   2: circle
-    // rLocation [34.60999648, 114.43005323]
-    // const addMarker = (rMarker, rLocation) => {
-    //   if (rMarker == 1) {
-    //     removeMarkers();
-    //     const marker = L.marker(rLocation).addTo(map.value);
-    //     marker.bindPopup(popup.value);
-    //     marker.setLatLng(rLocation);
-    //   } else if (rMarker == 2) {
-    //     // 添加圆形标记
-    //     L.circle(rLocation, {
-    //       color: "red",
-    //       fillColor: "#f03",
-    //       fillOpacity: 0.5,
-    //       radius: 50,
-    //     }).addTo(map.value);
-    //   }
-    // };
 
     // 更新弹出窗口内容的方法
-    const updatePopupContent = () => {
+    const updatePopupContent = (rVillagerMsg) => {
       const popupContent = document.createElement("div");
-      popupContent.innerHTML = ` 
+      popupContent.innerHTML = `
             <button id="popup-btn" outline style="color: blue;">显示户成员</button>
             <div class="text-h6 q-mb-md">
-              ${store.selectedVillagerMsg.姓名}
+              ${rVillagerMsg.姓名}
             </div>
             <p>
-              与户主关系:${store.selectedVillagerMsg.与户主关系} <br />
-              姓名:${store.selectedVillagerMsg.姓名} <br />
-              性别: ${store.selectedVillagerMsg.性别} <br />
-              出生日期: ${store.selectedVillagerMsg.出生日期} <br />
-              电话号码: ${store.selectedVillagerMsg.电话号码}<br />
+              与户主关系:${rVillagerMsg.与户主关系} <br />
+              姓名:${rVillagerMsg.姓名} <br />
+              性别: ${rVillagerMsg.性别} <br />
+              出生日期: ${rVillagerMsg.出生日期} <br />
+              电话号码: ${rVillagerMsg.电话号码}<br />
             </p>
           `;
       popup.value.setContent(popupContent);
@@ -190,11 +193,13 @@ export default {
       const btn = popupContent.querySelector("#popup-btn");
       btn.addEventListener("click", handleButtonClick);
     };
+
     // 处理按钮点击事件的方法
     const handleButtonClick = () => {
-      houseNumberArr.value = store.getHouseNumberMsg;
+      aFamilyMembersList.value = store.getHouseNumberMsg;
       houseNumberDialog.value = true;
     };
+
     // 移除所有的标记
     const removeMarkers = () => {
       // Remove all markers from the map
@@ -205,13 +210,22 @@ export default {
       });
     };
 
+    onMounted(() => {
+      map.value = L.map(mapContainer.value).setView(center.value, zoom.value);
+      L.tileLayer("/map/{z}/{x}/{y}.jpg", {
+        center: center.value,
+        attribution: "© OpenStreetMap",
+        maxZoom: maxZoom.value,
+        minZoom: minZoom.value,
+      }).addTo(map.value);
+    });
+
     return {
       mapContainer,
       popup,
       houseNumberDialog,
       maximizedToggle: ref(true),
-      houseNumberArr,
-      // addMarker,
+      aFamilyMembersList,
     };
   },
 };
