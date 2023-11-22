@@ -19,7 +19,6 @@
     "axios": "^1.2.1",
     "leaflet": "^1.9.4",
     "leaflet-draw": "^1.0.4",
-    "leaflet-geotag-photo": "^0.6.2",
     "leaflet-responsive-popup": "^1.0.0",
     "papaparse": "^5.4.1",
     "pinia": "^2.0.11",
