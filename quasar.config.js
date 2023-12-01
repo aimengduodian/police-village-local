@@ -173,7 +173,18 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true,
+      // (Optional!)
+      hideSplashscreen: false, // disables auto-hiding the Splashscreen by Quasar CLI
+
+      // (Optional!)
+      capacitorCliPreparationParams: ["sync", ctx.targetName],
+
+      // (Optional) If not present, will look for package.json > name
+      appName: "万隆派出所智慧警务系统", // string
+      // (Optional) If not present, will look for package.json > version
+      version: "1.0.0", // string
+      // (Optional) If not present, will look for package.json > description
+      description: "...", // string
     },
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/developing-electron-apps/configuring-electron

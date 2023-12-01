@@ -14,10 +14,13 @@
   },
   "dependencies": {
     "@capacitor/cli": "^5.5.1",
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/geolocation": "^5.0.6",
     "@quasar/extras": "^1.16.4",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "axios": "^1.2.1",
     "leaflet": "^1.9.4",
+    "leaflet-rotatedmarker": "^0.2.0",
     "papaparse": "^5.4.1",
     "pinia": "^2.0.11",
     "quasar": "^2.6.0",

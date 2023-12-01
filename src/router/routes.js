@@ -5,6 +5,10 @@ const routes = [
     children: [
       { path: "", component: () => import("pages/IndexPage.vue") },
       {
+        path: "/addmsg",
+        component: () => import("components/LeafletCarmerMarker.vue"),
+      },
+      {
         path: "/aboutSoft",
         component: () => import("components/AboutSoft.vue"),
       },

@@ -32,7 +32,12 @@
                 <div class="text-h6 q-mb-md">辅助功能</div>
                 <q-toggle
                   v-model="showCircleMarker"
-                  label="显示加载的户主信息"
+                  label="显示已有户主信息"
+                  @update:model-value="switchMarkerState"
+                />
+                <q-toggle
+                  v-model="showCircleMarker"
+                  label="添加户主信息"
                   @update:model-value="switchMarkerState"
                 />
               </div>
@@ -176,7 +181,10 @@ export default {
       showCircleMarker,
       switchMarkerState,
 
-      links1: [{ icon: "map", router: "/", text: "主页" }],
+      links1: [
+        { icon: "map", router: "/", text: "主页" },
+        { icon: "map", router: "/addMsg", text: "添加信息" },
+      ],
       links2: [
         { icon: "help", key: 3, name: "html-doc", text: "软件下载" },
         { icon: "help", key: 2, name: "html-doc", text: "表格配置" },
@@ -185,15 +193,6 @@ export default {
       links3: [
         { icon: "settings", router: "/editor", text: "编辑文档" },
         { icon: "settings", router: "/aboutSoft", text: "关于软件" },
-      ],
-
-      createMenu: [
-        {
-          icon: "photo_album",
-          model: false,
-          key: "1",
-          label: "显示加载的户主信息",
-        },
       ],
 
       toggleLeftDrawer,
