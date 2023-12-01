@@ -36,7 +36,7 @@ export default {
     // villageName,搜索的村庄名称
     // searchString,人名或身份证号
     // 返回值为对象数组
-    function findObjectWithNameOrID(array, searchString) {
+    const findObjectWithNameOrID = (array, searchString) => {
       const personList = [];
       for (var key in array) {
         for (var i = 0; i < array[key].length; i++) {
@@ -56,8 +56,8 @@ export default {
         }
       }
       return personList; // 如果未找到匹配项
-    }
-    function filterFn(val, update, abort) {
+    };
+    const filterFn = (val, update, abort) => {
       // console.log(val);
       if (val.length < 2) {
         abort();
@@ -70,7 +70,7 @@ export default {
         options.value.splice(0, options.value.length);
         options.value = findObjectWithNameOrID(store.allVillagerMsg, needle);
       });
-    }
+    };
     watch(model, (newVlaue, _oldValue) => {
       //获取
       store.saveSelectedVillagerMsg(newVlaue);

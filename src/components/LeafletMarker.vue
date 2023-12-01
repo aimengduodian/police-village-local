@@ -2,12 +2,7 @@
   <!-- 遍历建筑数据，将标注添加到地图上 -->
   <l-marker :lat-lng="circleLatLng">
     <l-popup>
-      <show-house-all-number
-        @click="
-          showHouseMsg(store.allVillagerMsg, store.selectedVillagerMsg.户号)
-        "
-      >
-      </show-house-all-number>
+      <show-house-all-number @click="showHouseMsg(store.selectedVillagerMsg)" />
 
       <q-splitter v-model="splitterModel" style="height: 200px">
         <template v-slot:before>
@@ -65,8 +60,6 @@ export default {
   },
   setup() {
     const store = useVillageStore();
-    const aHousePersonList = [];
-
     // 圆形标记的中心坐标
     const showCircle = ref(true);
     const circleLatLng = ref([0, 0]);
@@ -91,22 +84,13 @@ export default {
     });
 
     // 户成员信息
-    function showHouseMsg(array, aParams) {
-      aHousePersonList.splice(0, aHousePersonList.length);
-      for (var key in array) {
-        for (var i = 0; i < array[key].length; i++) {
-          if (array[key][i].户号 == aParams) {
-            aHousePersonList.push(array[key][i]);
-          }
-        }
-      }
-      store.saveHouseNumberMsg(aHousePersonList);
-    }
+    const showHouseMsg = (aParams) => {
+      store.saveSelectedVillagerMsg(aParams);
+    };
 
     return {
       store,
       showCircle,
-      aHousePersonList,
       showHouseMsg,
       tab: ref("home"),
       splitterModel: ref(20),

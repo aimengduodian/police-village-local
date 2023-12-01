@@ -38,7 +38,8 @@ export default boot(({ app }) => {
         Element.maxBounds = JSON.parse(Element.maxBounds);
         if (Element.行政区代码.toString().length == 12) {
           const villageName = Element.行政区;
-          const villageFilePath = "/csv/" + Element.行政区代码 + ".xlsx";
+          const villageCode = Element.行政区代码;
+          const villageFilePath = "/csv/" + villageCode + ".xlsx";
           // 获取村庄信息
           fetch(villageFilePath)
             .then((response) => response.arrayBuffer())
@@ -48,6 +49,7 @@ export default boot(({ app }) => {
               const worksheet = workbook.Sheets[sheetName];
               const jsonData2 = XLSX.utils.sheet_to_json(worksheet);
 
+              const aAllHouseHolderMsg = [];
               // 存储户主信息
               jsonData2.forEach((houseHolder) => {
                 const item = [];
@@ -55,9 +57,10 @@ export default boot(({ app }) => {
                 item.push(houseHolder.经度);
                 houseHolder.经纬度 = item;
                 if (houseHolder.与户主关系 === "户主") {
-                  store.savehouseHolder(houseHolder);
+                  aAllHouseHolderMsg.push(houseHolder);
                 }
               });
+              store.savehouseHolder(villageCode, aAllHouseHolderMsg);
 
               store.saveAllVillagerMsg(villageName, jsonData2);
             })

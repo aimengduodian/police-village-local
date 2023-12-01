@@ -42,7 +42,7 @@
 
         <q-card-section
           class="q-pt-none"
-          v-for="(house, index) in store.houseNumberArr"
+          v-for="(house, index) in houseNumberArr"
           :key="index"
         >
           <div class="text-h4 q-mb-md">
@@ -61,18 +61,20 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
 
 export default {
   setup() {
     const store = useVillageStore();
-    store.houseNumberArr;
+    const houseNumberArr = computed(() => store.getHouseNumberMsg);
+
     return {
       store,
       dialog: ref(false),
       maximizedToggle: ref(true),
+      houseNumberArr,
     };
   },
 };

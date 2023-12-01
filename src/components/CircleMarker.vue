@@ -1,7 +1,7 @@
 <template>
   <!-- 遍历建筑数据，将标注添加到地图上 -->
   <l-circle
-    v-for="(house, index) in store.allHouseHolderMsg"
+    v-for="(house, index) in aAllHouseHolderArr"
     :key="index"
     :lat-lng="house.经纬度"
     :radius="circleRadius"
@@ -9,10 +9,7 @@
     :fillOpacity="fillOpacity"
   >
     <l-popup>
-      <show-house-all-number
-        @click="showHouseMsg(store.allVillagerMsg, house.户号)"
-      >
-      </show-house-all-number>
+      <show-house-all-number @click="showHouseMsg(house)" />
 
       <q-splitter v-model="splitterModel" style="height: 200px">
         <template v-slot:before>
@@ -68,7 +65,6 @@ export default {
   },
   setup() {
     const store = useVillageStore();
-    const aHousePersonList = [];
 
     // 圆形标记的中心坐标
     const circleLatLng = ref([0, 0]);
@@ -77,30 +73,24 @@ export default {
     const fillOpacity = ref(0.3); // 透明度 0 -1
 
     const aCircleColor = computed(() => store.circleMarkerState);
+    // 显示选中村庄的所有户主信息
+    const aAllHouseHolderArr = computed(() => store.getVillageHouseHolderMsg);
+
     watch(aCircleColor, (newVlaue, _oldValue) => {
       circleColor.value = newVlaue;
     });
 
-    // store.circleMarkerState
     // 户成员信息
-    function showHouseMsg(array, aParams) {
-      aHousePersonList.splice(0, aHousePersonList.length);
-      for (var key in array) {
-        for (var i = 0; i < array[key].length; i++) {
-          if (array[key][i].户号 == aParams) {
-            aHousePersonList.push(array[key][i]);
-          }
-        }
-      }
-      store.saveHouseNumberMsg(aHousePersonList);
-    }
+    const showHouseMsg = (aParams) => {
+      store.saveSelectedVillagerMsg(aParams);
+    };
 
     return {
       store,
-      aHousePersonList,
       showHouseMsg,
       tab: ref("户主"),
       splitterModel: ref(20),
+      aAllHouseHolderArr,
 
       circleLatLng,
       circleRadius,
