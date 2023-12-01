@@ -9,6 +9,10 @@ const routes = [
         component: () => import("components/LeafletCarmerMarker.vue"),
       },
       {
+        path: "/testFun",
+        component: () => import("components/TestFunction.vue"),
+      },
+      {
         path: "/aboutSoft",
         component: () => import("components/AboutSoft.vue"),
       },

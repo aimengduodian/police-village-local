@@ -82,10 +82,12 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
 import LeafletMap from "components/LeafletMap.vue";
+// 获取位置
+import { Capacitor } from "@capacitor/core";
 
 const tempXiangZhengOptions = [];
 const tempCunZhuangOptions = [];
@@ -94,6 +96,7 @@ export default {
   components: {
     LeafletMap,
   },
+
   setup() {
     const store = useVillageStore();
     const seamless = ref(false);
@@ -104,6 +107,56 @@ export default {
     let selectKey = 1;
     let lockArea = ref(false);
     let lockAreaToggle = ref(true);
+
+    const filterFn = (_val, update, _abort) => {
+      if (firstLevelOptions.value !== null) {
+        update();
+        return;
+      }
+
+      setTimeout(() => {
+        update(() => {
+          tempXiangZhengOptions.splice(0, tempXiangZhengOptions.length);
+          store.villageMsg.祥符区.forEach((element) => {
+            const aOptions = {};
+            if (element.行政区代码.toString().length == 9) {
+              aOptions.center = element.center;
+              aOptions.maxBounds = element.maxBounds;
+              aOptions.maxZoom = element.maxZoom;
+              aOptions.minZoom = element.minZoom;
+              aOptions.zoom = element.zoom;
+              aOptions.label = element.行政区;
+              aOptions.value = element.行政区代码;
+              tempXiangZhengOptions.push(aOptions);
+            }
+          });
+          firstLevelOptions.value = tempXiangZhengOptions;
+        });
+      }, 500);
+    };
+
+    const handleSelectChange = (items) => {
+      if (items !== null) {
+        const val = items.value;
+        tempCunZhuangOptions.splice(0, tempCunZhuangOptions.length);
+        store.villageMsg.祥符区.forEach((element) => {
+          const aOptions = {};
+          if (val.toString() === element.行政区代码.toString().slice(0, 9)) {
+            aOptions.center = element.center;
+            aOptions.maxBounds = element.maxBounds;
+            aOptions.maxZoom = element.maxZoom;
+            aOptions.minZoom = element.minZoom;
+            aOptions.zoom = element.zoom;
+            aOptions.label = element.行政区;
+            aOptions.value = element.行政区代码;
+            aOptions.key = element.行政区代码;
+            tempCunZhuangOptions.push(aOptions);
+          }
+        });
+        secondLevelOptions.value = tempCunZhuangOptions;
+        selectKey++;
+      }
+    };
 
     watch(selectedSubItem, (_newVlaue, _oldValue) => {
       if (selectedSubItem.value !== null) {
@@ -131,55 +184,9 @@ export default {
       }
     });
 
-    function filterFn(_val, update, _abort) {
-      if (firstLevelOptions.value !== null) {
-        // already loaded
-        update();
-        return;
-      }
-
-      setTimeout(() => {
-        update(() => {
-          tempXiangZhengOptions.splice(0, tempXiangZhengOptions.length);
-          store.villageMsg.祥符区.forEach((element) => {
-            const aOptions = {};
-            if (element.行政区代码.toString().length == 9) {
-              aOptions.center = element.center;
-              aOptions.maxBounds = element.maxBounds;
-              aOptions.maxZoom = element.maxZoom;
-              aOptions.minZoom = element.minZoom;
-              aOptions.zoom = element.zoom;
-              aOptions.label = element.行政区;
-              aOptions.value = element.行政区代码;
-              tempXiangZhengOptions.push(aOptions);
-            }
-          });
-          firstLevelOptions.value = tempXiangZhengOptions;
-        });
-      }, 500);
-    }
-    function handleSelectChange(items) {
-      if (items !== null) {
-        const val = items.value;
-        tempCunZhuangOptions.splice(0, tempCunZhuangOptions.length);
-        store.villageMsg.祥符区.forEach((element) => {
-          const aOptions = {};
-          if (val.toString() === element.行政区代码.toString().slice(0, 9)) {
-            aOptions.center = element.center;
-            aOptions.maxBounds = element.maxBounds;
-            aOptions.maxZoom = element.maxZoom;
-            aOptions.minZoom = element.minZoom;
-            aOptions.zoom = element.zoom;
-            aOptions.label = element.行政区;
-            aOptions.value = element.行政区代码;
-            aOptions.key = element.行政区代码;
-            tempCunZhuangOptions.push(aOptions);
-          }
-        });
-        secondLevelOptions.value = tempCunZhuangOptions;
-        this.selectKey++;
-      }
-    }
+    onMounted(() => {
+      Capacitor.init;
+    });
 
     return {
       lockArea,

@@ -112,7 +112,7 @@ module.exports = configure(function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: ["Notify"],
     },
 
     // animations: 'all', // --- includes all animations
@@ -177,7 +177,7 @@ module.exports = configure(function (/* ctx */) {
       hideSplashscreen: false, // disables auto-hiding the Splashscreen by Quasar CLI
 
       // (Optional!)
-      capacitorCliPreparationParams: ["sync", ctx.targetName],
+      capacitorCliPreparationParams: ["sync", "android"],
 
       // (Optional) If not present, will look for package.json > name
       appName: "万隆派出所智慧警务系统", // string
