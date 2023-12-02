@@ -12,11 +12,12 @@
       <l-tile-layer :url="'/map/{z}/{x}/{y}.jpg'" :max-zoom="maxZoom" />
 
       <!--添加到地图上 -->
-      <leaflet-marker />
+      <marker-standard />
 
       <!-- 添加搜索到的用户信息 -->
-      <circle-marker />
+      <marker-circle />
 
+      <!-- 添加标记信息 -->
       <AddMarker :initialMessage="clickLatLng" />
 
       <carmer-marker />
@@ -29,10 +30,10 @@
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/leaflet";
 import { LMap, LTileLayer } from "@vue-leaflet/vue-leaflet";
-import LeafletMarker from "components/LeafletMarker.vue";
-import CircleMarker from "components/CircleMarker.vue";
-import AddMarker from "components/LeafletAddMarker.vue";
-// import CarmerMarker from "components/LeafletCarmerMarker.vue";
+import MarkerStandard from "components/MarkerStandard.vue";
+import MarkerCircle from "components/MarkerCircle.vue";
+import AddMarker from "components/AddMarker.vue";
+// import CarmerMarker from "components/MarkerCarmer.vue";
 
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
@@ -42,8 +43,8 @@ export default {
   components: {
     LMap,
     LTileLayer,
-    LeafletMarker,
-    CircleMarker,
+    MarkerStandard,
+    MarkerCircle,
     AddMarker,
     // CarmerMarker,
   },

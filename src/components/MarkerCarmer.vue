@@ -189,9 +189,6 @@ export default {
       console.log(event);
     }
 
-    // 测试点
-    // const aCircleColor = computed(() => store.circleMarkerState);
-
     const data = ref([
       // 这里是你的数据，例如：
       { Name: "John", Age: 30, City: "New York" },
@@ -241,7 +238,7 @@ export default {
 
       getCurrentPosition();
 
-      // 我们开始监听
+      // 开始监听
       geoId = Geolocation.watchPosition({}, (newPosition, err) => {
         console.log("New GPS position");
         position.value = newPosition;
