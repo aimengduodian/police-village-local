@@ -13,6 +13,7 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@capacitor/camera": "^5.0.7",
     "@capacitor/cli": "^5.5.1",
     "@capacitor/core": "^5.5.1",
     "@capacitor/geolocation": "^5.0.6",

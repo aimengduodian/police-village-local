@@ -23,6 +23,27 @@ export default boot(({ app }) => {
       console.error("Error loading Excel data:", error);
     });
 
+  // 加载摄像头配置文件
+  fetch("/csv/cameraMessage.xlsx")
+    .then((response) => response.arrayBuffer())
+    .then((data) => {
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      const aTempArr = [];
+      jsonData.forEach((Element) => {
+        // 存储村庄信息
+        aTempArr.push(Element);
+      });
+      // 信息存储到localStorage
+      localStorage.setItem("cameraMessage", JSON.stringify(aTempArr));
+    })
+    .catch((error) => {
+      console.error("Error loading Excel data:", error);
+    });
+
   // 加载地图相关文件
   fetch("/csv/city.xlsx")
     .then((response) => response.arrayBuffer())

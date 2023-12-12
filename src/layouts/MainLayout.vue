@@ -183,7 +183,6 @@ export default {
 
       links1: [
         { icon: "map", router: "/", text: "主页" },
-        { icon: "map", router: "/addmsg", text: "添加信息" },
         { icon: "map", router: "/testFun", text: "手机端功能测试" },
       ],
       links2: [

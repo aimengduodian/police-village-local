@@ -12,7 +12,7 @@
     >
       <l-tile-layer :url="'/map/{z}/{x}/{y}.jpg'" :max-zoom="maxZoom" />
       <l-marker
-        :lat-lng="centerCarmer"
+        :lat-lng="centercamera"
         ref="myMark"
         draggable
         @move="log(myMark.leafletObject._latlng)"
@@ -20,7 +20,7 @@
 
       <l-marker
         draggable
-        :lat-lng="centerCarmer"
+        :lat-lng="centercamera"
         ref="centerMarker"
         @moveend="centerMarkerLog(centerMarker.leafletObject._latlng)"
       >
@@ -45,14 +45,14 @@
             <q-card-actions>
               <q-btn flat>添加照片</q-btn>
               <q-btn flat @click="saveToLocalStorage">保存信息</q-btn>
-              <q-btn flat @click="saveCarmerMsg">导出信息</q-btn>
+              <q-btn flat @click="savecameraMsg">导出信息</q-btn>
             </q-card-actions>
           </q-card>
         </l-popup>
       </l-marker>
 
       <l-polyline
-        :lat-lngs="[beginLatLng, centerCarmer, endLatLng]"
+        :lat-lngs="[beginLatLng, centercamera, endLatLng]"
         color="black"
       />
     </l-map>
@@ -95,7 +95,7 @@ export default {
     const maxBounds = ref(null);
 
     const beginLatLng = ref([34.61249479271678, 114.42976610593284]);
-    const centerCarmer = ref([34.61275078378782, 114.43026087665758]);
+    const centercamera = ref([34.61275078378782, 114.43026087665758]);
     const endLatLng = ref([34.61250856185064, 114.43076253194927]);
 
     // 使用 ref 创建一个 ref 对象
@@ -152,7 +152,7 @@ export default {
 
     function log(endPoind) {
       // 已知的两个点
-      const pointA = { x: centerCarmer.value[0], y: centerCarmer.value[1] };
+      const pointA = { x: centercamera.value[0], y: centercamera.value[1] };
       const pointB = { x: endPoind.lat, y: endPoind.lng };
 
       // 固定长度和角度
@@ -179,7 +179,7 @@ export default {
       const tempArr = [];
       tempArr.push(event.lat);
       tempArr.push(event.lng);
-      centerCarmer.value = tempArr;
+      centercamera.value = tempArr;
     }
 
     function onZoomStart(event) {
@@ -198,7 +198,7 @@ export default {
       { Name: "Jane", Age: 25, City: "Chicago" },
     ]);
 
-    const saveCarmerMsg = () => {
+    const savecameraMsg = () => {
       const wb = XLSX.utils.book_new();
       const ws = XLSX.utils.json_to_sheet(data.value);
       XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
@@ -211,7 +211,7 @@ export default {
 
     // 保存到 localStorage 的方法
     const saveToLocalStorage = () => {
-      messageInput.value = centerCarmer.value;
+      messageInput.value = centercamera.value;
 
       // 将输入的消息保存到 localStorage
       localStorage.setItem("savedMessage", messageInput.value);
@@ -260,7 +260,7 @@ export default {
       maxBounds,
 
       beginLatLng,
-      centerCarmer,
+      centercamera,
       endLatLng,
 
       myComponentRef,
@@ -270,7 +270,7 @@ export default {
       onZoomEnd,
       log,
       centerMarkerLog,
-      saveCarmerMsg,
+      savecameraMsg,
       saveToLocalStorage,
       message,
       messageInput,
