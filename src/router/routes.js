@@ -9,6 +9,14 @@ const routes = [
         component: () => import("components/TestFunction.vue"),
       },
       {
+        path: "/adminAddCamera",
+        component: () => import("components/AdminAddCamera.vue"),
+      },
+      {
+        path: "/adminAddMarker",
+        component: () => import("components/AdminAddMarker.vue"),
+      },
+      {
         path: "/aboutSoft",
         component: () => import("components/AboutSoft.vue"),
       },

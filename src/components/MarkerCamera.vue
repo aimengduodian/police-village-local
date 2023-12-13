@@ -14,34 +14,50 @@
       color="black"
     />
   </div>
-  <q-dialog v-model="dialog" :position="position">
-    <q-card style="width: 350px">
-      <q-card-section class="row items-center no-wrap">
-        <div>
-          <div class="text-weight-bold">摄像头编号：</div>
-          <div class="text-grey">{{ aCameraID }}</div>
-
-          <div class="text-weight-bold">摄像头型号：</div>
-          <div class="text-grey">{{ aBrandModel }}</div>
-
-          <div class="text-weight-bold">摄像头所属用户：</div>
-          <div class="text-grey">{{ aCameraUser }}</div>
-
-          <div class="text-weight-bold">其他信息：</div>
-          <div class="text-grey">{{ aBrandMsg }}</div>
-        </div>
-      </q-card-section>
+  <q-dialog v-model="dialog" seamless position="bottom">
+    <q-card style="width: 550px">
       <q-carousel swipeable animated v-model="slide" thumbnails infinite>
         <q-carousel-slide
           :name="1"
           img-src="https://cdn.quasar.dev/img/mountains.jpg"
-        />
+        >
+          <div>
+            <div class="text-weight-bold">摄像头编号：</div>
+            <div class="text-grey">{{ aCameraID }}</div>
+
+            <div class="text-weight-bold">摄像头型号：</div>
+            <div class="text-grey">{{ aBrandModel }}</div>
+
+            <div class="text-weight-bold">摄像头所属用户：</div>
+            <div class="text-grey">{{ aCameraUser }}</div>
+
+            <div class="text-weight-bold">其他信息：</div>
+            <div class="text-grey">{{ aBrandMsg }}</div>
+          </div>
+        </q-carousel-slide>
         <q-carousel-slide
           :name="2"
           img-src="https://cdn.quasar.dev/img/parallax1.jpg"
-        />
-        -
+        >
+          <div>
+            <div class="text-weight-bold">摄像头编号：</div>
+            <div class="text-grey">{{ aCameraID }}</div>
+
+            <div class="text-weight-bold">摄像头型号：</div>
+            <div class="text-grey">{{ aBrandModel }}</div>
+
+            <div class="text-weight-bold">摄像头所属用户：</div>
+            <div class="text-grey">{{ aCameraUser }}</div>
+
+            <div class="text-weight-bold">其他信息：</div>
+            <div class="text-grey">{{ aBrandMsg }}</div>
+          </div>
+        </q-carousel-slide>
       </q-carousel>
+      <q-space />
+      <q-card-actions align="right">
+        <q-btn flat right label="隐藏面板" color="primary" v-close-popup />
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
@@ -93,10 +109,8 @@ export default {
     });
 
     const dialog = ref(false);
-    const position = ref("top");
 
     const open = (rItem) => {
-      position.value = "bottom";
       dialog.value = true;
 
       console.log(rItem);
@@ -120,7 +134,6 @@ export default {
 
       cameraData,
       dialog,
-      position,
       slide: ref(1),
       open,
     };
@@ -128,9 +141,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.my-card {
-  width: 100%;
-  width: 250px;
-}
-</style>
+<style scoped></style>

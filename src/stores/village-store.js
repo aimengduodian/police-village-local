@@ -29,7 +29,7 @@ export const useVillageStore = defineStore("village", {
     // 选择的村民信息（姓名、家坐标、户id，等信息）
     selectedVillagerMsg: {},
     // 开发测试功能，circleMarker标志开关
-    circleMarkerState: "transparent",
+    circleMarkerState: "green",
   }),
   getters: {
     // 获取户成员信息

@@ -19,6 +19,7 @@
         <q-space />
 
         <search-person class="GPL__toolbar-input" />
+
         <div class="q-gutter-sm row items-center no-wrap">
           <q-btn-dropdown
             round
@@ -32,13 +33,13 @@
                 <div class="text-h6 q-mb-md">辅助功能</div>
                 <q-toggle
                   v-model="showCircleMarker"
-                  label="显示已有户主信息"
+                  label="隐藏户主圆圈标记"
                   @update:model-value="switchMarkerState"
                 />
                 <q-toggle
                   v-model="showCircleMarker"
-                  label="添加户主信息"
-                  @update:model-value="switchMarkerState"
+                  label="显示摄像头信息"
+                  @update:model-value="switchCameraState"
                 />
               </div>
             </div>
@@ -168,9 +169,17 @@ export default {
 
     function switchMarkerState(aItem) {
       if (aItem == false) {
-        store.saveCircleMarkerState("transparent");
-      } else {
         store.saveCircleMarkerState("green");
+      } else {
+        store.saveCircleMarkerState("transparent");
+      }
+    }
+
+    function switchCameraState(aItem) {
+      if (aItem == false) {
+        store.saveCircleMarkerState("green");
+      } else {
+        store.saveCircleMarkerState("transparent");
       }
     }
 
@@ -180,9 +189,12 @@ export default {
       storage,
       showCircleMarker,
       switchMarkerState,
+      switchCameraState,
 
       links1: [
         { icon: "map", router: "/", text: "主页" },
+        { icon: "map", router: "/adminAddMarker", text: "管理员添加户信息" },
+        { icon: "map", router: "/adminAddCamera", text: "管理员添加摄像头" },
         { icon: "map", router: "/testFun", text: "手机端功能测试" },
       ],
       links2: [

@@ -7,6 +7,7 @@
       :min-zoom="minZoom"
       :max-bounds="maxBounds"
       ref="myComponentRef"
+      @click="onMapClick"
     >
       <l-tile-layer :url="'/map/{z}/{x}/{y}.jpg'" :max-zoom="maxZoom" />
 
@@ -16,7 +17,9 @@
       <!-- 添加搜索到的用户信息 -->
       <marker-circle />
 
+      <!-- 添加标记信息 -->
       <camera-marker />
+      <add-camera :initialMessage="clickLatLng" />
     </l-map>
   </div>
 </template>
@@ -35,6 +38,7 @@ import { onMounted, computed, ref, watch } from "vue";
 import MarkerStandard from "components/MarkerStandard.vue";
 import MarkerCircle from "components/MarkerCircle.vue";
 import CameraMarker from "components/MarkerCamera.vue";
+import AddCamera from "components/AddCamera.vue";
 
 export default {
   components: {
@@ -43,6 +47,7 @@ export default {
     MarkerStandard,
     MarkerCircle,
     CameraMarker,
+    AddCamera,
   },
   setup() {
     const store = useVillageStore();
@@ -53,13 +58,18 @@ export default {
     const maxBounds = ref(null);
     // 使用 ref 创建一个 ref 对象
     const myComponentRef = ref(null);
-
+    const clickLatLng = ref([0, 0]);
     // 监测搜索村庄信息数据变换
     const aMapCenter = computed(() => store.selectedVillageMsg);
     // 监测nowMaxBounds信息
     const aMaxBounds = computed(() => store.nowMaxBounds.lockArea);
     // 监测搜索框搜索住户的数据变换
     const aMapCenter2 = computed(() => store.selectedVillagerMsg.公民身份证号);
+
+    const onMapClick = (event) => {
+      // 将住户信息标注在地图上
+      clickLatLng.value = [event.latlng.lat, event.latlng.lng];
+    };
 
     watch(aMapCenter, (_newVlaue, _oldValue) => {
       zoom.value = store.selectedVillageMsg.zoom;
@@ -110,6 +120,8 @@ export default {
       center,
       maxBounds,
       myComponentRef,
+      clickLatLng,
+      onMapClick,
     };
   },
 };

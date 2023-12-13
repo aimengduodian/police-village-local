@@ -1,76 +1,70 @@
 <template>
-  <div>
-    <l-marker
-      draggable
-      :lat-lng="tMarker"
-      ref="myMarkObj"
-      @move="targetMarker(myMarkObj.leafletObject._latlng)"
-    />
+  <l-marker
+    draggable
+    :lat-lng="messageFromParent"
+    ref="myMarkObj"
+    @move="targetMarker(myMarkObj.leafletObject._latlng)"
+  />
 
-    <l-marker
-      draggable
-      :lat-lng="centercamera"
-      ref="centerMarkerObj"
-      @moveend="centerMarkerLog(centerMarkerObj.leafletObject._latlng)"
+  <l-marker
+    draggable
+    :lat-lng="messageFromParent"
+    ref="centerMarkerObj"
+    @moveend="centerMarkerLog(centerMarkerObj.leafletObject._latlng)"
+  >
+    <l-icon
+      icon-url="/icons/crosshair-icon.svg"
+      :icon-size="[28, 28]"
+      :icon-anchor="[15, 15]"
     >
-      <l-icon
-        icon-url="/icons/crosshair-icon.svg"
-        :icon-size="[28, 28]"
-        :icon-anchor="[15, 15]"
-      >
-      </l-icon>
-      <l-popup>
-        <div class="q-pa-md">
-          <div class="q-gutter-y-md column" style="max-width: 300px">
-            <q-input
-              color="purple-12"
-              v-model="aCarmerID"
-              label=" 摄像头编号："
-            >
-              <template v-slot:prepend>
-                <q-icon name="event" />
-              </template>
-            </q-input>
+    </l-icon>
+    <l-popup>
+      <div class="q-pa-md">
+        <div class="q-gutter-y-md column" style="max-width: 300px">
+          <q-input color="purple-12" v-model="aCarmerID" label=" 摄像头编号：">
+            <template v-slot:prepend>
+              <q-icon name="event" />
+            </template>
+          </q-input>
 
-            <q-input
-              color="purple-12"
-              v-model="aBrandModel"
-              label=" 摄像头型号："
-            >
-              <template v-slot:prepend>
-                <q-icon name="event" />
-              </template>
-            </q-input>
-            <q-input
-              color="purple-12"
-              v-model="aCameraUser"
-              label=" 摄像头所属用户： "
-            >
-              <template v-slot:prepend>
-                <q-icon name="event" />
-              </template>
-            </q-input>
-            <q-input color="purple-12" v-model="aBrandMsg" label=" 其他信息: ">
-              <template v-slot:prepend>
-                <q-icon name="event" />
-              </template>
-            </q-input>
-          </div>
-          <q-btn flat @click="saveToLocalStorage">保存信息</q-btn>
-          <q-btn flat @click="savecameraMsg">导出信息</q-btn>
+          <q-input
+            color="purple-12"
+            v-model="aBrandModel"
+            label=" 摄像头型号："
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" />
+            </template>
+          </q-input>
+          <q-input
+            color="purple-12"
+            v-model="aCameraUser"
+            label=" 摄像头所属用户： "
+          >
+            <template v-slot:prepend>
+              <q-icon name="event" />
+            </template>
+          </q-input>
+          <q-input color="purple-12" v-model="aBrandMsg" label=" 其他信息: ">
+            <template v-slot:prepend>
+              <q-icon name="event" />
+            </template>
+          </q-input>
         </div>
-      </l-popup>
-    </l-marker>
+        <q-btn flat @click="saveToLocalStorage">保存信息</q-btn>
+        <q-btn flat @click="savecameraMsg">导出信息</q-btn>
+      </div>
+    </l-popup>
+  </l-marker>
 
-    <l-polyline
-      :lat-lngs="[beginLatLng, centercamera, endLatLng]"
-      color="black"
-    />
-  </div>
+  <l-polyline
+    :lat-lngs="[beginLatLng, centercamera, endLatLng]"
+    color="black"
+  />
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { LMarker, LIcon, LPolyline, LPopup } from "@vue-leaflet/vue-leaflet";
 
 import * as XLSX from "xlsx";
@@ -82,8 +76,13 @@ export default {
     LPolyline,
     LPopup,
   },
+  props: {
+    initialMessage: Array,
+  },
+  setup(props) {
+    // 使用 ref 来声明响应式变量
+    const messageFromParent = ref(props.initialMessage);
 
-  setup() {
     // 使用 ref 创建一个 ref 对象
     const myMarkObj = ref(null);
     const centerMarkerObj = ref(null);
@@ -93,11 +92,11 @@ export default {
     const aCameraUser = ref("");
     const aBrandMsg = ref("");
     // 摄像头的三点坐标
-    const beginLatLng = ref([34.61249479271678, 114.42976610593284]);
-    const centercamera = ref([34.61275078378782, 114.43026087665758]);
-    const endLatLng = ref([34.61250856185064, 114.43076253194927]);
+    const beginLatLng = ref([0, 0]);
+    const centercamera = ref([0, 0]);
+    const endLatLng = ref([0, 0]);
     // 目标标记
-    const tMarker = ref([34.612159855810496, 114.43026781082155]);
+    // const tMarker = ref([34.612159855810496, 114.43026781082155]);
 
     const calculateDiamondVertices = (pointA, pointB, sideLength) => {
       // 计算菱形的中心点坐标
@@ -234,6 +233,15 @@ export default {
       }
     });
 
+    // 使用 watch 监听 props 的变化，并更新内部变量
+    watch(
+      () => props.initialMessage,
+      (newMessage) => {
+        messageFromParent.value = newMessage;
+        centercamera.value = newMessage;
+      }
+    );
+
     return {
       myMarkObj,
       centerMarkerObj,
@@ -245,12 +253,14 @@ export default {
       beginLatLng,
       centercamera,
       endLatLng,
-      tMarker,
+      // tMarker,
 
       targetMarker,
       centerMarkerLog,
       savecameraMsg,
       saveToLocalStorage,
+
+      messageFromParent,
     };
   },
 };
