@@ -21,7 +21,7 @@
     <l-popup>
       <div class="q-pa-md">
         <div class="q-gutter-y-md column" style="max-width: 300px">
-          <q-input color="purple-12" v-model="aCarmerID" label=" 摄像头编号：">
+          <q-input color="purple-12" v-model="aCameraID" label=" 摄像头编号：">
             <template v-slot:prepend>
               <q-icon name="event" />
             </template>
@@ -87,7 +87,7 @@ export default {
     const myMarkObj = ref(null);
     const centerMarkerObj = ref(null);
 
-    const aCarmerID = ref("");
+    const aCameraID = ref("");
     const aBrandModel = ref("");
     const aCameraUser = ref("");
     const aBrandMsg = ref("");
@@ -95,8 +95,6 @@ export default {
     const beginLatLng = ref([0, 0]);
     const centercamera = ref([0, 0]);
     const endLatLng = ref([0, 0]);
-    // 目标标记
-    // const tMarker = ref([34.612159855810496, 114.43026781082155]);
 
     const calculateDiamondVertices = (pointA, pointB, sideLength) => {
       // 计算菱形的中心点坐标
@@ -182,7 +180,7 @@ export default {
     const saveToLocalStorage = () => {
       const aItem = {};
       aItem["timeStamp"] = new Date().getTime();
-      aItem["carmerID"] = aCarmerID.value;
+      aItem["cameraID"] = aCameraID.value;
       aItem["brandModel"] = aBrandModel.value;
       aItem["brandMsg"] = aBrandMsg.value;
       aItem["cameraUser"] = aCameraUser.value;
@@ -192,7 +190,6 @@ export default {
       aItem["roadPic"] = "";
       aItem["carmerPic"] = "";
 
-      console.log(cameraData);
       cameraData.newMsg.push(aItem);
 
       // 将输入的消息保存到 localStorage
@@ -246,14 +243,13 @@ export default {
       myMarkObj,
       centerMarkerObj,
 
-      aCarmerID,
+      aCameraID,
       aBrandModel,
       aCameraUser,
       aBrandMsg,
       beginLatLng,
       centercamera,
       endLatLng,
-      // tMarker,
 
       targetMarker,
       centerMarkerLog,

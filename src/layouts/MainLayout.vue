@@ -48,7 +48,7 @@
             <!--           <q-badge color="red" text-color="white" floating> 2 </q-badge> -->
             <q-tooltip>消息提醒</q-tooltip>
           </q-btn>
-          <q-btn round flat>
+          <q-btn to="/Login" round flat>
             <q-avatar size="26px">
               <img src="/pic/avatar.jpeg" />
             </q-avatar>
@@ -76,16 +76,14 @@
           <q-item
             v-for="link in links1"
             :key="link.text"
-            clickable
-            class="GPL__drawer-item GPL__drawer-item--storage"
+            :to="link.router"
+            active-class="q-item-no-link-highlighting"
           >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <router-link :to="link.router">
-                <q-item-label>{{ link.text }}</q-item-label>
-              </router-link>
+              <q-item-label>{{ link.text }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -94,16 +92,14 @@
           <q-item
             v-for="link in links2"
             :key="link.text"
-            clickable
-            class="GPL__drawer-item GPL__drawer-item--storage"
+            :to="{ name: link.name, params: { id: link.key } }"
+            active-class="q-item-no-link-highlighting"
           >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <router-link :to="{ name: link.name, params: { id: link.key } }">
-                <q-item-label>{{ link.text }}</q-item-label>
-              </router-link>
+              <q-item-label>{{ link.text }}</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -112,20 +108,19 @@
           <q-item
             v-for="link in links3"
             :key="link.text"
-            clickable
-            class="GPL__drawer-item GPL__drawer-item--storage"
+            :to="link.router"
+            active-class="q-item-no-link-highlighting"
           >
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
             <q-item-section>
-              <router-link :to="link.router">
-                <q-item-label>{{ link.text }}</q-item-label>
-              </router-link>
+              <q-item-label>{{ link.text }}</q-item-label>
             </q-item-section>
-          </q-item> </q-list
-        >b
+          </q-item>
+        </q-list>
       </q-scroll-area>
+
       <q-img class="absolute-top" src="/pic/material.jpg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm"
@@ -195,7 +190,7 @@ export default {
         { icon: "map", router: "/", text: "主页" },
         { icon: "map", router: "/adminAddMarker", text: "管理员添加户信息" },
         { icon: "map", router: "/adminAddCamera", text: "管理员添加摄像头" },
-        { icon: "map", router: "/testFun", text: "手机端功能测试" },
+        { icon: "map", router: "/Login", text: "手机端功能测试" },
       ],
       links2: [
         { icon: "help", key: 3, name: "html-doc", text: "软件下载" },

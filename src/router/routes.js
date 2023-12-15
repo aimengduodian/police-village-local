@@ -9,23 +9,23 @@ const routes = [
         component: () => import("components/TestFunction.vue"),
       },
       {
+        path: "/doc/:id",
+        name: "html-doc",
+        component: () => import("pages/HtmlDoc.vue"),
+      },
+      { path: "/editor", component: () => import("pages/EditorPage.vue") },
+      {
         path: "/adminAddCamera",
-        component: () => import("components/AdminAddCamera.vue"),
+        component: () => import("pages/AdminAddCamera.vue"),
       },
       {
         path: "/adminAddMarker",
-        component: () => import("components/AdminAddMarker.vue"),
+        component: () => import("pages/AdminAddMarker.vue"),
       },
       {
         path: "/aboutSoft",
-        component: () => import("components/AboutSoft.vue"),
+        component: () => import("pages/AboutSoft.vue"),
       },
-      {
-        path: "/doc/:id",
-        name: "html-doc",
-        component: () => import("components/HtmlDoc.vue"),
-      },
-      { path: "/editor", component: () => import("components/EditorPage.vue") },
     ],
   },
 
@@ -34,6 +34,10 @@ const routes = [
   {
     path: "/:catchAll(.*)*",
     component: () => import("pages/ErrorNotFound.vue"),
+  },
+  {
+    path: "/Login",
+    component: () => import("pages/LoginPage.vue"),
   },
 ];
 

@@ -2,6 +2,15 @@
   <div class="q-pa-md q-gutter-sm">
     <div v-html="qeditor" />
   </div>
+  <q-card class="q-mt-md row no-shadow" bordered>
+    <q-card-section class="col-12 row text-center q-pa-lg">
+      <br />
+      <div class="text-body1 col-12 q-mt-sm text-grey-8 text-weight-bold">
+        版权 © 2023 开封市祥符区公安局万隆派出所
+      </div>
+      <br />
+    </q-card-section>
+  </q-card>
 </template>
 
 <script>

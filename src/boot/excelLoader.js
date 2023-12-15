@@ -82,7 +82,6 @@ export default boot(({ app }) => {
                 }
               });
               store.savehouseHolder(villageCode, aAllHouseHolderMsg);
-
               store.saveAllVillagerMsg(villageName, jsonData2);
             })
             .catch((error) => {
@@ -90,6 +89,7 @@ export default boot(({ app }) => {
             });
         }
       });
+      console.log(jsonData);
       // 存储村庄信息
       store.villageMsg["祥符区"] = jsonData;
     })

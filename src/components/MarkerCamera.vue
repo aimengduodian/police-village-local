@@ -117,7 +117,7 @@ export default {
       aCameraID.value = rItem.cameraID;
       aBrandModel.value = rItem.brandModel;
       aCameraUser.value = rItem.cameraUser;
-      aBrandMsg.value = rItem.BrandMsg;
+      aBrandMsg.value = rItem.brandMsg;
       beginLatLng.value = rItem.beginLatLng;
       centercamera.value = rItem.centercamera;
       endLatLng.value = rItem.endLatLng;
