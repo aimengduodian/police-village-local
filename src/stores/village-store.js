@@ -24,9 +24,17 @@ export const useVillageStore = defineStore("village", {
     // 选择的村民信息（姓名、家坐标、户id，等信息）
     selectedVillagerMsg: {},
     // 开发测试功能，circleMarker标志开关
-    circleMarkerState: "green",
+    circleMarkerState: "transparent",
   }),
   getters: {
+    getcircleMarkerState: (state) => {
+      let flag = true;
+      if (state.circleMarkerState == "transparent") {
+        flag = false;
+      }
+      return flag;
+    },
+
     // 通过行政区代码获取选择的村庄地图信息（中心位置缩放等级等）
     getVillageMapMsgByVillageCode: (state) => {
       const aMapMsg = {};

@@ -5,7 +5,7 @@
     :key="index"
     :lat-lng="house.经纬度"
     :radius="circleRadius"
-    :color="circleColor"
+    color="green"
     :fillOpacity="fillOpacity"
   >
     <l-popup>
@@ -69,16 +69,16 @@ export default {
     // 圆形标记的中心坐标
     const circleLatLng = ref([0, 0]);
     const circleRadius = ref(10);
-    const circleColor = ref("transparent"); // 'transparent' 透明
+    // const circleColor = ref("transparent"); // 'transparent' 透明
     const fillOpacity = ref(0.3); // 透明度 0 -1
 
     const aCircleColor = computed(() => store.circleMarkerState);
     // 显示选中村庄的所有户主信息
     const aAllHouseHolderArr = computed(() => store.getVillageHouseHolderMsg);
 
-    watch(aCircleColor, (newVlaue, _oldValue) => {
-      circleColor.value = newVlaue;
-    });
+    // watch(aCircleColor, (newVlaue, _oldValue) => {
+    //   circleColor.value = newVlaue;
+    // });
 
     // 户成员信息
     const showHouseMsg = (aParams) => {
@@ -94,7 +94,7 @@ export default {
 
       circleLatLng,
       circleRadius,
-      circleColor,
+      // circleColor,
       fillOpacity,
     };
   },

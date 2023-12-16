@@ -14,7 +14,7 @@
       <marker-standard />
 
       <!-- 添加搜索到的用户信息 -->
-      <marker-circle />
+      <marker-circle v-if="store.getcircleMarkerState" />
 
       <camera-marker />
     </l-map>
@@ -105,6 +105,7 @@ export default {
     });
 
     return {
+      store,
       zoom,
       maxZoom,
       minZoom,

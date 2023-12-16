@@ -119,9 +119,9 @@ export default {
       }, 500);
     };
 
-    const handleSelectChange = (items) => {
-      if (items !== null) {
-        const val = items.value;
+    const handleSelectChange = (rItems) => {
+      if (rItems !== null) {
+        const val = rItems.value;
         tempCunZhuangOptions.splice(0, tempCunZhuangOptions.length);
         store.villageMsg.祥符区.forEach((element) => {
           const aOptions = {};

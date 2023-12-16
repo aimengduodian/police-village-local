@@ -33,7 +33,7 @@
                 <div class="text-h6 q-mb-md">辅助功能</div>
                 <q-toggle
                   v-model="showCircleMarker"
-                  label="隐藏户主圆圈标记"
+                  label="显示所有户主信息"
                   @update:model-value="switchMarkerState"
                 />
                 <q-toggle
@@ -166,9 +166,9 @@ export default {
 
     function switchMarkerState(aItem) {
       if (aItem == false) {
-        store.saveCircleMarkerState("green");
-      } else {
         store.saveCircleMarkerState("transparent");
+      } else {
+        store.saveCircleMarkerState("green");
       }
     }
 
