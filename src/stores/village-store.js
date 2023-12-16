@@ -2,12 +2,7 @@ import { defineStore } from "pinia";
 
 export const useVillageStore = defineStore("village", {
   state: () => ({
-    // 登录用户
-    user: null,
-    // 软件名称，
-    softName: "",
-    // 软件介绍
-    softDes: "",
+    nowVillageCode: "",
     // 所有户主信息
     allHouseHolderMsg: {},
     // 所有村民信息
@@ -32,9 +27,23 @@ export const useVillageStore = defineStore("village", {
     circleMarkerState: "green",
   }),
   getters: {
+    // 通过行政区代码获取选择的村庄地图信息（中心位置缩放等级等）
+    getVillageMapMsgByVillageCode: (state) => {
+      const aMapMsg = {};
+      state.villageMsg["祥符区"].forEach((element) => {
+        if (element.行政区代码 == state.nowVillageCode) {
+          aMapMsg.maxBounds = element.maxBounds;
+          aMapMsg.center = element.center;
+          aMapMsg.zoom = element.zoom;
+          aMapMsg.maxZoom = element.maxZoom;
+          aMapMsg.minZoom = element.minZoom;
+        }
+      });
+      return aMapMsg;
+    },
+
     // 获取户成员信息
     getHouseNumberMsg: (state) => {
-      console.log(state.selectedVillagerMsg);
       const aHousePersonList = [];
       const array = state.allVillagerMsg;
       for (let key in array) {
@@ -46,6 +55,7 @@ export const useVillageStore = defineStore("village", {
       }
       return aHousePersonList;
     },
+
     // 获取村庄的户主信息列表
     getVillageHouseHolderMsg: (state) => {
       const aVillageCode = state.selectedVillageMsg.value;
@@ -54,35 +64,29 @@ export const useVillageStore = defineStore("village", {
     },
   },
   actions: {
-    // 加载软件名称和版本号
-    setSoftNameAndVersionMsg(aName, aDes) {
-      this.softName = aName;
-      this.softDes = aDes;
-    },
-
     // 存储选择的村民信息
-    saveSelectedVillagerMsg(villagerMsg) {
-      if (villagerMsg !== null) {
-        this.selectedVillagerMsg = villagerMsg;
+    saveSelectedVillagerMsg(rVillagerMsg) {
+      if (rVillagerMsg !== null) {
+        this.selectedVillagerMsg = rVillagerMsg;
       }
     },
 
     // 存储选择的乡镇信息
     // villageMsg
-    saveSelectedVillageMsg(villageMsg) {
-      if (villageMsg !== null) {
-        this.selectedVillageMsg = villageMsg;
+    saveSelectedVillageMsg(rVillageMsg) {
+      if (rVillageMsg !== null) {
+        this.selectedVillageMsg = rVillageMsg;
       }
     },
 
     // 存储maxBounds信息
-    saveMaxBounds(bounds) {
-      this.nowMaxBounds.villageMaxBounds = bounds;
+    saveMaxBounds(rBounds) {
+      this.nowMaxBounds.villageMaxBounds = rBounds;
     },
 
     // 存储lockArea信息,是否锁定区域
-    saveLockArea(lock) {
-      this.nowMaxBounds.lockArea = lock;
+    saveLockArea(rLock) {
+      this.nowMaxBounds.lockArea = rLock;
     },
 
     // 存储选择的一户成员信息
@@ -94,7 +98,7 @@ export const useVillageStore = defineStore("village", {
     },
 
     // 存储所有户主信息
-    savehouseHolder(rVillageCode, rVillageHouseHolderArr) {
+    saveHouseHolder(rVillageCode, rVillageHouseHolderArr) {
       if (rVillageCode !== "" && rVillageHouseHolderArr !== null) {
         this.allHouseHolderMsg[rVillageCode] = rVillageHouseHolderArr;
       }
@@ -102,10 +106,15 @@ export const useVillageStore = defineStore("village", {
 
     // 存储所有villager信息
     // villageName: String; villageMsg: Object
-    saveAllVillagerMsg(villageName, villageMsg) {
-      if (villageName !== "" && villageMsg !== null) {
-        this.allVillagerMsg[villageName] = villageMsg;
+    saveAllVillagerMsg(rVillageName, rVillageMsg) {
+      if (rVillageName !== "" && rVillageMsg !== null) {
+        this.allVillagerMsg[rVillageName] = rVillageMsg;
       }
+    },
+
+    // 设置进入软件后地图的中心位置、最大缩放等级等信息
+    setVillageCode(rVillageCode) {
+      this.nowVillageCode = rVillageCode;
     },
   },
 });

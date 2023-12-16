@@ -143,6 +143,7 @@
 import { ref } from "vue";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
+import { useSoftwareStore } from "stores/software-store";
 import SearchPerson from "components/SearchPerson.vue";
 
 export default {
@@ -152,9 +153,10 @@ export default {
   created() {},
   setup() {
     const store = useVillageStore();
+    const softwareStore = useSoftwareStore();
     const leftDrawerOpen = ref(false);
     const storage = ref(0.26);
-    const softName = ref(store.softName);
+    const softName = ref(softwareStore.softName);
 
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;

@@ -46,10 +46,11 @@ export default {
   },
   setup() {
     const store = useVillageStore();
-    const zoom = ref(16);
-    const maxZoom = ref(19);
-    const minZoom = ref(15);
-    const center = ref([34.60999648, 114.43005323]);
+    const aMapMsg = store.getVillageMapMsgByVillageCode;
+    const zoom = ref(aMapMsg.zoom);
+    const maxZoom = ref(aMapMsg.maxZoom);
+    const minZoom = ref(aMapMsg.minZoom);
+    const center = ref(aMapMsg.center);
     const maxBounds = ref(null);
     // 使用 ref 创建一个 ref 对象
     const myComponentRef = ref(null);
@@ -100,7 +101,7 @@ export default {
       setTimeout(() => {
         // 在这里可以执行一些延时操作
         myComponentRef.value.leafletObject.attributionControl.setPrefix(false);
-      }, 2000);
+      }, 1000);
     });
 
     return {

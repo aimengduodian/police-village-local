@@ -38,8 +38,8 @@ export default {
     // 返回值为对象数组
     const findObjectWithNameOrID = (array, searchString) => {
       const personList = [];
-      for (var key in array) {
-        for (var i = 0; i < array[key].length; i++) {
+      for (let key in array) {
+        for (let i = 0; i < array[key].length; i++) {
           if (
             array[key][i].姓名 == searchString ||
             array[key][i].公民身份证号 == searchString

@@ -2,9 +2,14 @@ import { boot } from "quasar/wrappers";
 import * as XLSX from "xlsx";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
+import { useUsersStore } from "stores/users-store";
+import { useSoftwareStore } from "stores/software-store";
 
 export default boot(({ app }) => {
-  const store = useVillageStore();
+  const softwareStore = useSoftwareStore();
+  const villageStore = useVillageStore();
+  const usersStore = useUsersStore();
+
   // 加载config文件
   fetch("/csv/config.xlsx")
     .then((response) => response.arrayBuffer())
@@ -15,8 +20,11 @@ export default boot(({ app }) => {
       const jsonData = XLSX.utils.sheet_to_json(worksheet);
 
       jsonData.forEach((Element) => {
-        // 存储村庄信息
-        store.softName = Element.软件名称;
+        // 存储软件信息信息
+        softwareStore.setSoftNameAndVersionMsg(Element);
+
+        // 设置初始行政区信息，用于设置初始地图信息
+        villageStore.setVillageCode(Element.行政区代码);
       });
     })
     .catch((error) => {
@@ -81,17 +89,37 @@ export default boot(({ app }) => {
                   aAllHouseHolderMsg.push(houseHolder);
                 }
               });
-              store.savehouseHolder(villageCode, aAllHouseHolderMsg);
-              store.saveAllVillagerMsg(villageName, jsonData2);
+              villageStore.saveHouseHolder(villageCode, aAllHouseHolderMsg);
+              villageStore.saveAllVillagerMsg(villageName, jsonData2);
             })
             .catch((error) => {
               console.error("Error loading Excel data:", error);
             });
         }
       });
-      console.log(jsonData);
       // 存储村庄信息
-      store.villageMsg["祥符区"] = jsonData;
+      villageStore.villageMsg["祥符区"] = jsonData;
+    })
+    .catch((error) => {
+      console.error("Error loading Excel data:", error);
+    });
+
+  // 加载用户信息
+  fetch("/csv/login.xlsx")
+    .then((response) => response.arrayBuffer())
+    .then((data) => {
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+      const aTempArr = [];
+      jsonData.forEach((Element) => {
+        // 存储村庄信息
+        aTempArr.push(Element);
+      });
+      // 保存用户信息
+      usersStore.saveAllUsersMsg(aTempArr);
     })
     .catch((error) => {
       console.error("Error loading Excel data:", error);
