@@ -28,7 +28,12 @@
               />
 
               <div>
-                <q-btn label="登录" to="/" type="button" color="primary" />
+                <q-btn
+                  label="登录"
+                  @click="submitHandler"
+                  type="button"
+                  color="primary"
+                />
               </div>
             </q-form>
           </q-card-section>
@@ -41,18 +46,40 @@
 <script>
 import { defineComponent } from "vue";
 import { ref } from "vue";
+import { useRouter } from "vue-router"; // Import the useRouter function
+
+import { useUsersStore } from "stores/users-store";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   setup() {
+    const $q = useQuasar();
+
+    const store = useUsersStore();
+    const router = useRouter(); // Use the useRouter function to get the router instance
+    const username = ref("admin");
+    const password = ref(null);
+
+    function submitHandler() {
+      const isLogin = store.usersLogin(username.value, password.value);
+      if (isLogin) {
+        $q.notify("登陆验证成功");
+        router.push("/"); // Use router.push instead of this.$router.push
+      } else {
+        $q.notify("用户名或密码不正确");
+      }
+    }
+
     return {
-      username: ref("admin"),
-      password: ref("123456"),
+      username,
+      password,
+      submitHandler,
     };
   },
 });
 </script>
 
-<style>
+<style scoped>
 .bg-image {
   background-image: linear-gradient(180deg, hwb(0 0% 2%) 0%, #0a018c 100%);
 }

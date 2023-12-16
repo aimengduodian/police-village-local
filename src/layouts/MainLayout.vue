@@ -48,11 +48,11 @@
             <!--           <q-badge color="red" text-color="white" floating> 2 </q-badge> -->
             <q-tooltip>消息提醒</q-tooltip>
           </q-btn>
-          <q-btn to="/Login" round flat>
+          <q-btn round flat>
             <q-avatar size="26px">
               <img src="/pic/avatar.jpeg" />
             </q-avatar>
-            <q-tooltip>账号</q-tooltip>
+            <q-tooltip>{{ usersStore.userName }}</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -140,10 +140,12 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
 import { useSoftwareStore } from "stores/software-store";
+import { useUsersStore } from "stores/users-store";
 import SearchPerson from "components/SearchPerson.vue";
 
 export default {
@@ -154,10 +156,11 @@ export default {
   setup() {
     const store = useVillageStore();
     const softwareStore = useSoftwareStore();
+    const usersStore = useUsersStore();
     const leftDrawerOpen = ref(false);
     const storage = ref(0.26);
     const softName = ref(softwareStore.softName);
-
+    const router = useRouter();
     function toggleLeftDrawer() {
       leftDrawerOpen.value = !leftDrawerOpen.value;
     }
@@ -180,11 +183,18 @@ export default {
       }
     }
 
+    onMounted(() => {
+      if (!usersStore.isLogin) {
+        router.push("/Login");
+      }
+    });
+
     return {
       softName,
       leftDrawerOpen,
       storage,
       showCircleMarker,
+      usersStore,
       switchMarkerState,
       switchCameraState,
 
@@ -192,7 +202,7 @@ export default {
         { icon: "map", router: "/", text: "主页" },
         { icon: "map", router: "/adminAddMarker", text: "管理员添加户信息" },
         { icon: "map", router: "/adminAddCamera", text: "管理员添加摄像头" },
-        { icon: "map", router: "/Login", text: "手机端功能测试" },
+        { icon: "map", router: "/Login", text: "切换用户" },
       ],
       links2: [
         { icon: "help", key: 3, name: "html-doc", text: "软件下载" },

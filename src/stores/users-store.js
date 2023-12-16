@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 export const useUsersStore = defineStore("users", {
   state: () => ({
+    isLogin: false,
     // 用户ID
     userID: null,
     // 用户名称
@@ -11,18 +12,24 @@ export const useUsersStore = defineStore("users", {
     // 用户信息数组（临时）
     usersMsgArr: [],
   }),
-  getters: {
-    // 获取村庄的户主信息列表
-    getVillageHouseHolderMsg: (state) => {
-      const aVillageCode = state.selectedVillageMsg.value;
-
-      return state.allHouseHolderMsg[aVillageCode];
-    },
-  },
+  getters: {},
   actions: {
+    usersLogin(rUserName, rUserPwd) {
+      let flag = false;
+      this.usersMsgArr.forEach((rItem) => {
+        if (rUserName == rItem.userName && rUserPwd == rItem.userPwd) {
+          this.userID = rItem.userID;
+          this.userName = rItem.userName;
+          this.userPower = rItem.userPower;
+          this.isLogin = true;
+          flag = true;
+        }
+      });
+      return flag;
+    },
     // 存储所有用户信息
-    saveAllUsersMsg(usersMsg) {
-      this.usersMsgArr = usersMsg;
+    saveAllUsersMsg(rUsersMsg) {
+      this.usersMsgArr = rUsersMsg;
       console.log(this.usersMsgArr);
     },
   },
