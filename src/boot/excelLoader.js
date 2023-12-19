@@ -1,4 +1,4 @@
-import { boot } from "quasar/wrappers";
+import { boot, store } from "quasar/wrappers";
 import * as XLSX from "xlsx";
 // 引入pinia插件
 import { useVillageStore } from "stores/village-store";
@@ -47,6 +47,8 @@ export default boot(({ app }) => {
       });
       // 信息存储到localStorage
       localStorage.setItem("cameraMessage", JSON.stringify(aTempArr));
+      // 存储所有的监控信息
+      villageStore.saveAllCameraMsg();
     })
     .catch((error) => {
       console.error("Error loading Excel data:", error);

@@ -10,16 +10,8 @@
       @click="onMapClick"
     >
       <l-tile-layer :url="'/map/{z}/{x}/{y}.jpg'" :max-zoom="maxZoom" />
-
-      <!--添加到地图上 -->
-      <marker-standard />
-
-      <!-- 添加搜索到的用户信息 -->
-      <marker-circle />
-
-      <!-- 添加标记信息 -->
-      <camera-marker />
       <add-camera :initialMessage="clickLatLng" />
+      <camera-marker />
     </l-map>
   </div>
 </template>
@@ -35,26 +27,23 @@ import { useVillageStore } from "stores/village-store";
 import { onMounted, computed, ref, watch } from "vue";
 
 // 引入组件
-import MarkerStandard from "components/MarkerStandard.vue";
-import MarkerCircle from "components/MarkerCircle.vue";
-import CameraMarker from "components/MarkerCamera.vue";
 import AddCamera from "components/AddCamera.vue";
+import CameraMarker from "components/MarkerCamera.vue";
 
 export default {
   components: {
     LMap,
     LTileLayer,
-    MarkerStandard,
-    MarkerCircle,
-    CameraMarker,
     AddCamera,
+    CameraMarker,
   },
   setup() {
     const store = useVillageStore();
-    const zoom = ref(16);
-    const maxZoom = ref(19);
-    const minZoom = ref(15);
-    const center = ref([34.60999648, 114.43005323]);
+    const aMapMsg = store.getVillageMapMsgByVillageCode;
+    const zoom = ref(aMapMsg.zoom);
+    const maxZoom = ref(aMapMsg.maxZoom);
+    const minZoom = ref(aMapMsg.minZoom);
+    const center = ref(aMapMsg.center);
     const maxBounds = ref(null);
     // 使用 ref 创建一个 ref 对象
     const myComponentRef = ref(null);
@@ -65,12 +54,10 @@ export default {
     const aMaxBounds = computed(() => store.nowMaxBounds.lockArea);
     // 监测搜索框搜索住户的数据变换
     const aMapCenter2 = computed(() => store.selectedVillagerMsg.公民身份证号);
-
     const onMapClick = (event) => {
-      // 将住户信息标注在地图上
+      // 将信息标注在地图上
       clickLatLng.value = [event.latlng.lat, event.latlng.lng];
     };
-
     watch(aMapCenter, (_newVlaue, _oldValue) => {
       zoom.value = store.selectedVillageMsg.zoom;
       maxZoom.value = store.selectedVillageMsg.maxZoom;
@@ -110,10 +97,11 @@ export default {
       setTimeout(() => {
         // 在这里可以执行一些延时操作
         myComponentRef.value.leafletObject.attributionControl.setPrefix(false);
-      }, 2000);
+      }, 1000);
     });
 
     return {
+      store,
       zoom,
       maxZoom,
       minZoom,

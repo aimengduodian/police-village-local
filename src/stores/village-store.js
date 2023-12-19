@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { Dialog } from "quasar";
 
 export const useVillageStore = defineStore("village", {
   state: () => ({
@@ -25,8 +26,15 @@ export const useVillageStore = defineStore("village", {
     selectedVillagerMsg: {},
     // 开发测试功能，circleMarker标志开关
     circleMarkerState: "transparent",
+
+    // 所有的摄像头信息
+    AllCameraMsg: [],
   }),
   getters: {
+    getAllCameraMsg: (state) => {
+      return state.AllCameraMsg;
+    },
+
     getcircleMarkerState: (state) => {
       let flag = true;
       if (state.circleMarkerState == "transparent") {
@@ -69,6 +77,19 @@ export const useVillageStore = defineStore("village", {
       const aVillageCode = state.selectedVillageMsg.value;
 
       return state.allHouseHolderMsg[aVillageCode];
+    },
+
+    // 获取村庄的所有户信息
+    getSelectVillageAllVillagerMsg: (state) => {
+      let selectVillage = state.selectedVillageMsg.label;
+      console.log(state.allVillagerMsg[selectVillage]);
+
+      if (Object.keys(state.selectedVillageMsg).length > 0) {
+        return state.allVillagerMsg[selectVillage];
+      } else {
+        console.log("请选添加的城市");
+        return [];
+      }
     },
   },
   actions: {
@@ -123,6 +144,50 @@ export const useVillageStore = defineStore("village", {
     // 设置进入软件后地图的中心位置、最大缩放等级等信息
     setVillageCode(rVillageCode) {
       this.nowVillageCode = rVillageCode;
+    },
+
+    saveCameraMsg(rItem) {
+      this.AllCameraMsg.push(rItem);
+    },
+    // 保存所有的监控信息
+    saveAllCameraMsg() {
+      const newMsg = JSON.parse(localStorage.getItem("cameraMessageNew")) || [];
+      const oldMsg = JSON.parse(localStorage.getItem("cameraMessage")) || [];
+      // const aTempArr = []
+      newMsg.forEach((element) => {
+        element["beginLatLng"] = JSON.parse(element.locationOne);
+        element["centercamera"] = JSON.parse(element.locationTwo);
+        element["endLatLng"] = JSON.parse(element.locationThree);
+      });
+
+      oldMsg.forEach((element) => {
+        element["beginLatLng"] = JSON.parse(element.locationOne);
+        element["centercamera"] = JSON.parse(element.locationTwo);
+        element["endLatLng"] = JSON.parse(element.locationThree);
+      });
+
+      this.AllCameraMsg = oldMsg.concat(newMsg);
+    },
+
+    // 保存添加的经纬度信息
+    saveVillagerLngMsg(rID, rLng) {
+      const flag = false;
+      if (Object.keys(this.selectedVillageMsg).length == 0) {
+        console.log("请选添加的城市");
+      } else {
+        const allVillageMsg =
+          this.allVillagerMsg[this.selectedVillageMsg.label];
+        allVillageMsg.forEach((item) => {
+          if (item.序号 == rID) {
+            item.纬度 = rLng[0];
+            item.经度 = rLng[1];
+            item.经纬度[0] = rLng[0];
+            item.经纬度[1] = rLng[1];
+            flag = true;
+          }
+        });
+      }
+      return flag;
     },
   },
 });

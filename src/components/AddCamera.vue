@@ -21,12 +21,6 @@
     <l-popup>
       <div class="q-pa-md">
         <div class="q-gutter-y-md column" style="max-width: 300px">
-          <q-input color="purple-12" v-model="aCameraID" label=" 摄像头编号：">
-            <template v-slot:prepend>
-              <q-icon name="event" />
-            </template>
-          </q-input>
-
           <q-input
             color="purple-12"
             v-model="aBrandModel"
@@ -66,6 +60,8 @@
 <script>
 import { ref, onMounted, watch } from "vue";
 import { LMarker, LIcon, LPolyline, LPopup } from "@vue-leaflet/vue-leaflet";
+// 引入pinia插件
+import { useVillageStore } from "stores/village-store";
 
 import * as XLSX from "xlsx";
 
@@ -80,6 +76,7 @@ export default {
     initialMessage: Array,
   },
   setup(props) {
+    const store = useVillageStore();
     // 使用 ref 来声明响应式变量
     const messageFromParent = ref(props.initialMessage);
 
@@ -191,6 +188,9 @@ export default {
       aItem["carmerPic"] = "";
 
       cameraData.newMsg.push(aItem);
+
+      // 将数据保存到store
+      store.saveCameraMsg(aItem);
 
       // 将输入的消息保存到 localStorage
       localStorage.setItem(

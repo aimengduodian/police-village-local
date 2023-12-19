@@ -20,6 +20,8 @@
       <!-- 添加标记信息 -->
       <AddMarker :initialMessage="clickLatLng" />
     </l-map>
+
+    <page-sticky />
   </div>
 </template>
 
@@ -38,6 +40,8 @@ import MarkerStandard from "components/MarkerStandard.vue";
 import MarkerCircle from "components/MarkerCircle.vue";
 import AddMarker from "components/AddMarker.vue";
 
+import PageSticky from "components/PageSticky.vue";
+
 export default {
   components: {
     LMap,
@@ -45,6 +49,7 @@ export default {
     MarkerStandard,
     MarkerCircle,
     AddMarker,
+    PageSticky,
   },
   setup() {
     const store = useVillageStore();

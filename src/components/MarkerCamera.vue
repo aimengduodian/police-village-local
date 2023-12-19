@@ -1,5 +1,5 @@
 <template>
-  <div v-for="(aItem, index) in cameraData" :key="index">
+  <div v-for="(aItem, index) in store.getAllCameraMsg" :key="index">
     <l-marker :lat-lng="aItem.centercamera" @click="open(aItem)">
       <l-icon
         icon-url="/icons/crosshair-icon.svg"
@@ -63,8 +63,10 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { LMarker, LIcon, LPolyline } from "@vue-leaflet/vue-leaflet";
+// 引入pinia插件
+import { useVillageStore } from "stores/village-store";
 
 export default {
   components: {
@@ -74,8 +76,8 @@ export default {
   },
 
   setup() {
-    // 所有的摄像头数据信息
-    const cameraData = ref([]);
+    const store = useVillageStore();
+
     // 摄像头信息
     const aCameraID = ref("");
     const aBrandModel = ref("");
@@ -85,28 +87,6 @@ export default {
     const beginLatLng = ref([34.61249479271678, 114.42976610593284]);
     const centercamera = ref([34.61275078378782, 114.43026087665758]);
     const endLatLng = ref([34.61250856185064, 114.43076253194927]);
-
-    onMounted(() => {
-      const newMsg = JSON.parse(localStorage.getItem("cameraMessageNew")) || [];
-      const oldMsg = JSON.parse(localStorage.getItem("cameraMessage")) || [];
-
-      // const aTempArr = []
-      newMsg.forEach((element) => {
-        element["beginLatLng"] = JSON.parse(element.locationOne);
-        element["centercamera"] = JSON.parse(element.locationTwo);
-        element["endLatLng"] = JSON.parse(element.locationThree);
-      });
-
-      oldMsg.forEach((element) => {
-        element["beginLatLng"] = JSON.parse(element.locationOne);
-        element["centercamera"] = JSON.parse(element.locationTwo);
-        element["endLatLng"] = JSON.parse(element.locationThree);
-      });
-
-      cameraData.value = oldMsg.concat(newMsg);
-      // cameraData.value = aTempDada;
-      console.log(cameraData.value);
-    });
 
     const dialog = ref(false);
 
@@ -132,7 +112,7 @@ export default {
       centercamera,
       endLatLng,
 
-      cameraData,
+      store,
       dialog,
       slide: ref(1),
       open,
@@ -140,5 +120,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>
